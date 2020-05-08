@@ -72,11 +72,13 @@ namespace View
             foreach (Transform child in statusView.transform)
                 Destroy(child.gameObject);
 
+            /*
             foreach (var item in owner.Status)
             {
                 var t= Instantiate(TextTemp, parent:statusView.transform);
                 t.Set(item);
             }
+            */
         }
 
         private void UpdateSkills()

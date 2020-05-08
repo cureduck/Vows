@@ -24,6 +24,7 @@ namespace View
         {
             Move2Mouse();
             GetMouseDownObject();
+            StopReact();
         }
 
         void Move2Mouse()
@@ -47,8 +48,16 @@ namespace View
                     //Debug.Log(hit.collider.name);
                     var tmp = hit.collider.GetComponent<Entity>();
                     //Debug.Log(tmp);
-                    view.SetOwner(tmp);
+                    //view.SetOwner(tmp);
                 }
+            }
+        }
+
+        void StopReact()
+        {
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                body.InterruptReact();
             }
         }
     }

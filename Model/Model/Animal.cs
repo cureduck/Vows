@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Experimental.U2D.Animation;
 
 namespace Model
 {
@@ -12,6 +13,13 @@ namespace Model
     [RequireComponent(typeof(TileAI),typeof(BoxCollider2D),typeof(Rigidbody2D))]
     public partial class Animal : Entity
     {
+        #region property
+        public Vector2 velocity { get => agent.velocity; }
+        private SpriteResolver body;
+        private SpriteResolver eyes;
+        private SpriteResolver head;
+        #endregion
+
         #region variable
         public int curHp;
         public int maxHp;
@@ -37,9 +45,9 @@ namespace Model
 
         public override Action<Entity>[] actions => throw new NotImplementedException();
 
-        public override Tuple<string, string>[] Status { get => GetStatus(); }
 
         private TileAI agent;
+
         #endregion
 
         #region events
@@ -52,12 +60,22 @@ namespace Model
 
         private void Start()
         {
-            agent = GetComponent<TileAI>();    
+            agent = GetComponent<TileAI>();
+            GetAnimComponents();
+        }
+
+        private static bool test(Entity t)
+        {
+            return true;
         }
 
         public void SetDestination(Vector2 destiantion)
         {
-            agent.SetDestination(destiantion);
+            if (status==Status.Idle)
+            {
+                agent.SetDestination(destiantion);
+                UpdateFace();
+            }
         }
 
 
@@ -126,6 +144,57 @@ namespace Model
             Death();
         }
 
+        public void Move2React(Entity target,int index=0)
+        {
+            StartCoroutine(Move2(target, target.actions[index]));
+        }
+
+        protected IEnumerator Move2(Entity target,Action<Entity> callback)
+        {
+            SetDestination(target.transform.position);
+            yield return new WaitUntil(()=> { return agent.hasReached; });
+            callback(this);
+        }
+
+        #endregion
+
+        #region Animation Handler
+
+        public void UpdateFace()
+        {
+            if (Math.Abs( velocity.x) > Math. Abs(velocity.y))
+            {
+                if (velocity.x>0)
+                {
+                    eyes.SetCategoryAndLabel("eyes", "right");
+                }
+                else
+                {
+                    eyes.SetCategoryAndLabel("eyes", "left");
+                }
+            }
+            else
+            {
+                if (velocity.y < 0)
+                {
+                    eyes.SetCategoryAndLabel("eyes", "front");
+                }
+                else
+                {
+                    eyes.SetCategoryAndLabel("eyes", "back");
+
+                }
+
+            }
+        }
+
+
+        public void GetAnimComponents()
+        {
+            body= transform.Find("body").GetComponent<SpriteResolver>();
+            head = transform.Find("head").GetComponent<SpriteResolver>();
+            eyes = head.transform.Find("eyes").GetComponent<SpriteResolver>();
+        }
 
         #endregion
     }

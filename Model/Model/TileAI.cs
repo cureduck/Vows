@@ -15,12 +15,13 @@ namespace Model
         public Vector2 position { get => rb.position; }
         public float speed = 3f;
         private Vector2 _destination;
-        public bool Reached = false;
         public Vector2 velocity { get => rb.velocity; }
+        private bool _canMove=true;
+        public bool canMove { get=>_canMove; set { _canMove = value; if (value) { SetDestination(_destination); } else { rb.velocity = Vector2.zero; } } }
 
         public event Action Reached;
 
-        private bool hasReached=true;
+        public bool hasReached=true;
 
         private void Start()
         {
@@ -43,11 +44,10 @@ namespace Model
                 if (Vector2.Distance(_destination, position) < 0.2f)
                 {
                     rb.velocity = Vector2.zero;
+                    Reached?.Invoke();
+                    hasReached = true;
                 }
-                Reached();
-                hasReached = true;
             }
-
         }
     }
 }
