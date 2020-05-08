@@ -11,7 +11,7 @@ namespace Model
     {
         public GameObject destination;
 
-        public override Action<Entity>[] actions => new Action<Entity>[1] { Teleport};
+        protected override Action<Entity>[] DisiredReactions => new Action<Entity>[1] { Teleport };
 
         public void Teleport(Entity user)
         {

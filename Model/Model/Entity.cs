@@ -10,7 +10,7 @@ namespace Model
 {
     public abstract class Entity:MonoBehaviour
     {
-        public abstract Action<Entity>[] actions { get; }
+        public abstract Action<Entity>[] GetReactions(Entity sponser);
 
         public LinkedList<Buff> buffs;
 

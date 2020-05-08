@@ -7,23 +7,23 @@ using UnityEngine.EventSystems;
 namespace View
 {
 
-    [RequireComponent(typeof(Animal))]
     public class PlayerController : MonoBehaviour
     {
-        Animal body;
-        InfoView view;
+        public Animal body;
+        //InfoView view;
+
+        public enum Mode { Building,Common}
 
         void Start()
         {
-            body = GetComponent<Animal>();
-            view = FindObjectOfType<InfoView>();
+            //body = GetComponent<Animal>();
+            //view = FindObjectOfType<InfoView>();
         }
 
 
         void Update()
         {
             Move2Mouse();
-            GetMouseDownObject();
             StopReact();
         }
 
@@ -36,7 +36,7 @@ namespace View
             }
         }
 
-
+        /*
         void GetMouseDownObject()
         {
             if (Input.GetMouseButton(0))
@@ -52,6 +52,9 @@ namespace View
                 }
             }
         }
+        */
+
+        
 
         void StopReact()
         {

@@ -43,8 +43,6 @@ namespace Model
         public Profession prof;
         public Skill[] skills;
 
-        public override Action<Entity>[] actions => throw new NotImplementedException();
-
 
         private TileAI agent;
 
@@ -146,14 +144,14 @@ namespace Model
 
         public void Move2React(Entity target,int index=0)
         {
-            StartCoroutine(Move2(target, target.actions[index]));
+            StartCoroutine(Move2(target, index));
         }
 
-        protected IEnumerator Move2(Entity target,Action<Entity> callback)
+        protected IEnumerator Move2(Entity target, int index)
         {
             SetDestination(target.transform.position);
             yield return new WaitUntil(()=> { return agent.hasReached; });
-            callback(this);
+            target.GetReactions(this)[index](this);
         }
 
         #endregion
@@ -194,6 +192,11 @@ namespace Model
             body= transform.Find("body").GetComponent<SpriteResolver>();
             head = transform.Find("head").GetComponent<SpriteResolver>();
             eyes = head.transform.Find("eyes").GetComponent<SpriteResolver>();
+        }
+
+        public override Action<Entity>[] GetReactions(Entity sponser)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

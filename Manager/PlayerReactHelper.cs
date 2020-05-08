@@ -29,7 +29,7 @@ namespace Manager
 
         private void OnMouseUp()
         {
-            if (entity.actions.Length==1)
+            if (entity.GetReactions(player).Length==1)
             {
                 if (player is Animal a) { a.Move2React(entity); }
                 //entity.actions[0](player);

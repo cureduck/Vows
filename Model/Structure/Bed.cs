@@ -7,7 +7,10 @@ namespace Model
 {
     class Bed : Structure
     {
-        public override Action<Entity>[] actions => new Action<Entity>[1] { Sleep};
+        private Action<Entity>[] actions;
+
+        protected override Action<Entity>[] DisiredReactions => new Action<Entity>[1] { Sleep };
+
 
         protected  IEnumerator sleep(Entity user)
         {
