@@ -8,14 +8,5 @@ namespace Model
 { 
     public class Smith:Profession
     {
-        public void Forge(ItemBase item,Entity user,ItemBase[] Resources)
-        {
-
-        }
-
-        public void Repair(ItemBase item, Entity user, ItemBase[] Resources)
-        {
-
-        }
     }
 }

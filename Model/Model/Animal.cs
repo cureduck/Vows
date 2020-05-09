@@ -37,9 +37,6 @@ namespace Model
 
         public new string name;
         public Race race;
-        public Weapon weapon;
-        public Armor armor;
-        public ItemBase[] items = new ItemBase[3]{new BigPotion(), null, null};
         public Profession prof;
         public Skill[] skills;
 
@@ -92,6 +89,7 @@ namespace Model
             return status;
         }
 
+        /*
         public void SwapItem(int idx1,int idx2)
         {
             var tmp = items[idx1];
@@ -113,6 +111,7 @@ namespace Model
                 UpdateAttr();
             }
         }
+    */
 
         internal void HealHp(int point)
         {
@@ -164,22 +163,22 @@ namespace Model
             {
                 if (velocity.x>0)
                 {
-                    eyes.SetCategoryAndLabel("eyes", "right");
+                    eyes.SetCategoryAndLabel("eyes_right", "default");
                 }
                 else
                 {
-                    eyes.SetCategoryAndLabel("eyes", "left");
+                    eyes.SetCategoryAndLabel("eyes_left", "default");
                 }
             }
             else
             {
                 if (velocity.y < 0)
                 {
-                    eyes.SetCategoryAndLabel("eyes", "front");
+                    eyes.SetCategoryAndLabel("eyes_front", "default");
                 }
                 else
                 {
-                    eyes.SetCategoryAndLabel("eyes", "back");
+                    eyes.SetCategoryAndLabel("eyes_back", "default");
 
                 }
 

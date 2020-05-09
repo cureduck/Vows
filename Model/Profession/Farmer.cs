@@ -8,11 +8,6 @@ namespace Model
 {
     public class Farmer:Profession
     {
-        public void Fertillize(Entity plant,ItemBase item)
-        {
-
-        }
-
         
     }
 }

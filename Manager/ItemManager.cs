@@ -11,12 +11,12 @@ namespace Manager
 {
     class ItemManager:MonoBehaviour
     {
-        public ItemBase[] items;
+        public Item[] items;
 
         private void Start()
         {
             var resources = Resources.LoadAll<Sprite>("Texture/");
-            BigPotion.Set(resources.First((s)=> { return s.name == "Red Potion";}));
+            //BigPotion.Set(resources.First((s)=> { return s.name == "Red Potion";}));
         }
     }
 

@@ -37,6 +37,11 @@ namespace Model
 
         public virtual string Info {get=>"test"; }
 
+        public virtual void SaySth(string str)
+        {
+            Debug.Log(str);
+        }
+
         public virtual void InterruptReact()
         {
             if (curTask != null)
@@ -74,7 +79,6 @@ namespace Model
             status = Status.Reacting;
         }
 
-
         protected IEnumerator wrapper(IEnumerator ie,Entity user)
         {
             var coro = user.StartCoroutine(ie);
@@ -87,7 +91,6 @@ namespace Model
             this.CompleteReact(this);
 
         }
-
 
         protected void BeginReact(IEnumerator ie, Entity user)
         {
