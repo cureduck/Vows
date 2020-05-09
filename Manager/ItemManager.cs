@@ -12,6 +12,7 @@ namespace Manager
     class ItemManager:MonoBehaviour
     {
         public Item[] items;
+        public ModelTemplate1[] tmps;
 
         private void Start()
         {

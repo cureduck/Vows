@@ -45,6 +45,13 @@ namespace Model
     [CreateAssetMenu(menuName ="Items/Weapon",fileName ="Weapon")]
     public class Equipment : Item
     {
+        public enum Slot { Weapon,Armor}
+        public Slot slot;
         public enum Affix { A,b,c,d,e,f,g}
     }
+
+
+    public enum Element { Fire,Ice, Arc,None}
+
+
 }

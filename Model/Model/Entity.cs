@@ -100,5 +100,10 @@ namespace Model
 
             }
         }
+
+        public void BuildStructure(Structure origin,Vector2 pos)
+        {
+            Instantiate(original:origin,position:pos,rotation:Quaternion.identity);
+        }
     }
 }

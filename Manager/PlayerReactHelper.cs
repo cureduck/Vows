@@ -15,6 +15,7 @@ namespace Manager
         void Start()
         {
             entity = GetComponent<Entity>();
+            player = GameManager.Instance.player;
         }
 
         private void OnMouseEnter()

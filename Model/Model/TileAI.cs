@@ -41,9 +41,10 @@ namespace Model
         {
             if (!hasReached)
             {
-                if (Vector2.Distance(_destination, position) < 0.2f)
+                if (Vector2.Distance(_destination, position) < 0.01f*speed)
                 {
                     rb.velocity = Vector2.zero;
+                    transform.position = _destination;
                     Reached?.Invoke();
                     hasReached = true;
                 }
