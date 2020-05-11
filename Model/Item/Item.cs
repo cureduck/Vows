@@ -20,7 +20,8 @@ namespace Model
     {
         public abstract void OnUse(Entity user);
 
-        public static int a { get; set; }
+        public virtual int MaxStack { get; } = 10;
+        public int Qty;
     }
 }
 

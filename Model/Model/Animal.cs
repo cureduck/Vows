@@ -42,6 +42,30 @@ namespace Model
 
 
         private TileAI agent;
+        private Animator animator;
+
+        public override Status status
+        {
+            get => base.status;
+            set
+            {
+                base.status = value;
+                switch (value)
+                {
+                    case Status.Idle:
+                        animator.SetTrigger("Idle");
+                        break;
+                    case Status.Reacting:
+                        animator.SetTrigger("Work");
+                        break;
+                    case Status.Stun:
+                        animator.SetTrigger("Stun");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
 
         #endregion
 
@@ -56,6 +80,7 @@ namespace Model
         private void Start()
         {
             agent = GetComponent<TileAI>();
+            animator = GetComponent<Animator>();
             GetAnimComponents();
         }
 
@@ -116,11 +141,13 @@ namespace Model
         internal void HealHp(int point)
         {
             curHp = Math.Min(maxHp, point + curHp);
+            StatusUpdated?.Invoke();
         }
 
         internal void HealSp(int point)
         {
             curSp = Math.Min(maxSp, point + curSp);
+            StatusUpdated?.Invoke();
         }
 
         internal void TakeHpDmg(int point)
@@ -128,12 +155,14 @@ namespace Model
             curHp = Math.Max(0, curHp - point);
             if (curHp == 0)
                 Die();
+            StatusUpdated?.Invoke();
         }
 
 
         internal void TakeSpDmg(int point)
         {
             curSp = Math.Max(0, curSp - point);
+            StatusUpdated?.Invoke();
         }
 
         internal void Die()
@@ -153,6 +182,10 @@ namespace Model
             target.GetReactions(this)[index](this);
         }
 
+        public void BuildStructure(Structure origin, Vector2 pos)
+        {
+            Instantiate(original: origin, position: pos, rotation: Quaternion.identity);
+        }
         #endregion
 
         #region Animation Handler
@@ -197,6 +230,7 @@ namespace Model
         {
             throw new NotImplementedException();
         }
+
 
         #endregion
     }

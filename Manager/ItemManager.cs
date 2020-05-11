@@ -19,8 +19,13 @@ namespace Manager
 
         private void Start()
         {
+            RegisterItems();
+        }
+
+        public void RegisterItems()
+        {
             var resources = Resources.LoadAll<Sprite>("Sprites/");
-            var types = GetSubClasses(typeof(Item));
+            var types = Utils.GetSubClasses(typeof(Item));
 
             items = new Item[types.Length];
             int i = 0;
@@ -31,26 +36,8 @@ namespace Manager
                 type.GetProperty("ItemSprite").SetValue(sample, sprite);
                 items[i] = sample;
                 i++;
-
             }
-
-
         }
-
-        /// <summary>
-        /// 获取程序集内所有该父类的子类
-        /// </summary>
-        /// <param name="basetype"></param>
-        /// <returns></returns>
-        public static Type[] GetSubClasses(Type basetype)
-        {
-            var types = Assembly.GetCallingAssembly().GetTypes().Where((type) =>
-            {
-                return (type.IsSubclassOf(basetype)&&(!type.IsAbstract));
-            });
-            return types.ToArray();
-        }
-
 
     }
 

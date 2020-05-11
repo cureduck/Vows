@@ -9,6 +9,8 @@ namespace Model
     {
         private Action<Entity>[] actions;
 
+        public override string StruName => "Bed";
+
         protected override Action<Entity>[] DisiredReactions => new Action<Entity>[1] { Sleep };
 
 

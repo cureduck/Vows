@@ -33,7 +33,8 @@ namespace Model
         }
 
         public enum Status { Idle,Reacting,Stun}
-        public Status status=Status.Idle;
+        [SerializeField] private Status _status = Status.Idle;
+        public virtual Status status { get => _status; set => _status = value; }
 
         public virtual string Info {get=>"test"; }
 
@@ -99,11 +100,6 @@ namespace Model
                 var coro = user.StartCoroutine(wrapper(ie, user));
 
             }
-        }
-
-        public void BuildStructure(Structure origin,Vector2 pos)
-        {
-            Instantiate(original:origin,position:pos,rotation:Quaternion.identity);
         }
     }
 }

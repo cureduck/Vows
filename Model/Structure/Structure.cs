@@ -10,6 +10,7 @@ namespace Model
 {
     public abstract class Structure:Entity
     {
+        public virtual string StruName { get; }
         public enum State { Building, Done}
         [SerializeField]private float Progress;
         public float buildTime = 10f;

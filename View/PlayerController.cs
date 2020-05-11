@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Model;
 using UnityEngine.EventSystems;
+using Manager;
 
 namespace View
 {
@@ -13,11 +14,36 @@ namespace View
         //InfoView view;
 
         public enum Mode { Building,Common}
-        public Mode mode;
+        [SerializeField] private Mode _mode;
+        public Mode mode { get =>_mode; set
+            {
+                switch (_mode)
+                {
+                    case Mode.Building:
+                        ExitBuildingMode();
+                        break;
+                    case Mode.Common:
+                        ExitCommonMode();
+                        break;
+                    default:
+                        break;
+                }
+                _mode = value;
+                switch (value)
+                {
+                    case Mode.Building:
+                        EnterBuildingMode();
+                        break;
+                    case Mode.Common:
+                        EnterCommonMode();
+                        break;
+                    default:
+                        break;
+                }
+            } }
         public Structure origin;
 
         public GameObject helper;
-
 
         public static Vector3 MouseToWorldPoint()
         {
@@ -46,6 +72,28 @@ namespace View
             helper.transform.position = FindNearestIntPoint(MouseToWorldPoint());
         }
 
+
+        private void EnterBuildingMode()
+        {
+            helper.SetActive(true);
+        }
+
+        private void ExitBuildingMode()
+        {
+            helper.SetActive(false);
+        }
+
+        private void EnterCommonMode()
+        {
+
+        }
+
+        private void ExitCommonMode()
+        {
+
+        }
+
+
         void Move2Mouse()
         {
             if ((Input.GetMouseButtonDown(1))&&(!EventSystem.current.IsPointerOverGameObject()))
@@ -71,19 +119,16 @@ namespace View
                     {
                         Build(origin, MouseToWorldPoint());
                         mode = Mode.Common;
-                        helper.SetActive(false);
                     }
                     if (Input.GetKeyDown(commonCode))
                     {
                         mode = Mode.Common;
-                        helper.SetActive(false);
                     }
                     break;
                 case Mode.Common:
                     if (Input.GetKeyDown(buildCode))
                     {
                         mode = Mode.Building;
-                        helper.SetActive(true);
                     }
                     break;
                 default:
@@ -95,6 +140,11 @@ namespace View
         public void Build(Structure structure,Vector2 pos)
         {
             body.BuildStructure(structure, FindNearestIntPoint(pos));
+        }
+
+        public void FindStru(string name)
+        {
+            origin= StructureManager.Instance.struMap[name].GetComponent<Structure>();
         }
     }
 }

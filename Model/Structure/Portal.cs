@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace Model
 {
-    public class Portal : Structure
+    public class Portal 
     {
         public GameObject destination;
 
-        protected override Action<Entity>[] DisiredReactions => new Action<Entity>[1] { Teleport };
+        //protected override Action<Entity>[] DisiredReactions => new Action<Entity>[1] { Teleport };
 
         public void Teleport(Entity user)
         {
