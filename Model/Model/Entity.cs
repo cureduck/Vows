@@ -38,68 +38,56 @@ namespace Model
 
         public virtual string Info {get=>"test"; }
 
-        public virtual void SaySth(string str)
-        {
-            Debug.Log(str);
-        }
-
         public virtual void InterruptReact()
         {
             if (curTask != null)
             {
                 StopCoroutine(curTask);
-                ReactInturrpted?.Invoke(this);
-
                 trader.InterruptHandler();
                 InterruptHandler();
             }
         }
 
+        private void ReactEndHandler()
+        {
+            ReactInturrpted?.Invoke(this);
+            curTask = null;
+            trader = null;
+            if (status==Status.Reacting)
+            {
+                status = Status.Idle;
+            }
+        }
+
         private void InterruptHandler()
         {
-            
-            Debug.Log("Interrupted");
-            curTask = null;
-            trader = null;
-            status = Status.Idle;
-        }
-        
-        protected virtual void CompleteReact(Entity entity)
-        {
-            curTask = null;
-            trader = null;
-            ReactCompleted?.Invoke(this);
-            status = Status.Idle;
+            ReactEndHandler();
         }
 
-        protected virtual void StartReact(Coroutine coro,Entity trader)
-        {
-            ReactStarted?.Invoke(this);
-            curTask = coro;
-            this.trader = trader;
-            status = Status.Reacting;
-        }
-
-        protected IEnumerator wrapper(IEnumerator ie,Entity user)
-        {
-            var coro = user.StartCoroutine(ie);
-            user.StartReact(coro,this);
-            StartReact(coro,user);
-
-            yield return coro;
-
-            user.CompleteReact(user);
-            this.CompleteReact(this);
-
-        }
-
-        protected void BeginReact(IEnumerator ie, Entity user)
+        protected void InvokeReact(IEnumerator ie,Entity user)
         {
             if ((status == Status.Idle) && (user.status == Status.Idle))
             {
-                var coro = user.StartCoroutine(wrapper(ie, user));
+                var coro = user.StartCoroutine(ie);
+                user.OnReactStart(coro, this);
+                this.OnReactStart(coro, user);
 
             }
+        }
+
+        private void OnReactStart(Coroutine coro, Entity target)
+        {
+            ReactStarted?.Invoke(this);
+            curTask = coro;
+            this.trader = target;
+            status = Status.Reacting;
+        }
+
+
+        protected internal virtual void OnReactCompleted(Entity target)
+        {
+            ReactEndHandler();
+            ReactCompleted?.Invoke(this);
         }
     }
 }

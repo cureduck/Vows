@@ -9,6 +9,7 @@ namespace Manager
     class StructureManager:Singleton<StructureManager>
     {
         public Dictionary<string, GameObject> struMap;
+        public GameObject[] items;
 
         private void Start()
         {
@@ -21,11 +22,15 @@ namespace Manager
             var types = Utils.GetSubClasses(typeof(Structure));
             struMap = new Dictionary<string, GameObject>();
             
-            var items = new GameObject[types.Length];
+            items = new GameObject[types.Length];
+
+            int i = 0;
             foreach (var type in types)
             {
                 var go = resources.First((s) => { return s.name == type.Name; });
                 struMap.Add(go.name, go);
+                items[i] = go;
+                i++;
             }
         }
 

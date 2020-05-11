@@ -18,10 +18,6 @@ namespace Model
         public State state;
         protected abstract Action<Entity>[] DisiredReactions { get; }
 
-        public void Log(string s)
-        {
-            Debug.Log(s);
-        }
 
         public void Awake()
         {
@@ -51,11 +47,13 @@ namespace Model
                 yield return null;
             }
             CompleteBuild();
+            builder.OnReactCompleted(builder);
+            this. OnReactCompleted(this);
         }
 
         protected void Build(Entity builder)
         {
-            StartCoroutine(wrapper(BuildPro(builder), builder));
+            InvokeReact(BuildPro(builder),builder);
         }
 
         private void CompleteBuild()

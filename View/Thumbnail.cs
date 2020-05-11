@@ -15,10 +15,14 @@ namespace View
         public void Start()
         {
             animal = GameManager.Instance.player;
-            hpSlider.value =  (float) animal.curHp / animal.maxHp;
             Debug.Log(hpSlider.value.GetType());
+            animal.StatusUpdated += UpdateUI;
         }
 
+        public void UpdateUI()
+        {
+            hpSlider.value = (float)animal.curHp / animal.maxHp;
+        }
 
     }
 }

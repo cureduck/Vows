@@ -9,7 +9,7 @@ namespace Model
     [Serializable]
     public struct SkillExp
     {
-        int LightSword, LargeSword, Teach, Cook, ArmorForge, WeaponForge, Trade, Steal, Farm;
+        public int LightSword, LargeSword, Teach, Cook, ArmorForge, WeaponForge, Trade, Steal, Farm;
 
     }
 
