@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Manager
 {
-    public class SettingManager : MonoBehaviour
+    public class SettingManager : Singleton<SettingManager>
     {
         private void Start()
         {
