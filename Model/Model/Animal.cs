@@ -50,7 +50,7 @@ namespace Model
         public BaseAttr baseAttr;
         public SkillExp skillExp;
 
-        public new string name;
+        public string Name;
         public Race race;
         public Profession prof;
         public Skill[] skills;
@@ -85,7 +85,7 @@ namespace Model
         #endregion
 
         #region events
-        public event Action Death;
+        public event Action<Animal> Death;
         public event Action StatusUpdated;
 
         #endregion
@@ -113,7 +113,7 @@ namespace Model
         {
             Tuple<string, string>[] status = new Tuple<string, string>[6]
             {
-                new Tuple<string, string>("Name:"+name,"Name"),
+                new Tuple<string, string>("Name:"+Name,"Name"),
                 new Tuple<string, string>("Race:Human","The Race"),
                 new Tuple<string, string>("Bielf:Iron","The Blief"),
                 new Tuple<string, string>("HP:"+combatAttr.curHp.ToString()+"/"+combatAttr.maxHp.ToString(),"Health Point,Drop to 0 and character dies"),
@@ -178,8 +178,8 @@ namespace Model
         internal void Die()
         {
             Debug.Log("去世");
-            Death?.Invoke();
             Destroy(gameObject);
+            Death?.Invoke(this);
         }
 
         public void Move2React(Entity target,int index=0)
@@ -243,6 +243,11 @@ namespace Model
             throw new NotImplementedException();
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
 
         #endregion
     }
@@ -259,6 +264,8 @@ namespace Model
             {
                 a.Die();
             }
+
+
         }
     }
 }

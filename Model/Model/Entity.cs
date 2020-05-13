@@ -21,7 +21,7 @@ namespace Model
         public event Action<float> ProgressUpdated;
 
         [SerializeField]
-        protected Coroutine curTask;
+        protected Coroutine realTask;
         private Entity trader;
 
         private void Start()
@@ -41,9 +41,9 @@ namespace Model
 
         public virtual void InterruptReact()
         {
-            if (curTask != null)
+            if (realTask != null)
             {
-                StopCoroutine(curTask);
+                StopCoroutine(realTask);
                 trader.InterruptHandler();
                 InterruptHandler();
             }
@@ -52,7 +52,7 @@ namespace Model
         private void ReactEndHandler()
         {
             ReactInturrpted?.Invoke(this);
-            curTask = null;
+            realTask = null;
             trader = null;
             if (status==Status.Reacting)
             {
@@ -79,7 +79,7 @@ namespace Model
         private void OnReactStart(Coroutine coro, Entity target)
         {
             ReactStarted?.Invoke(this);
-            curTask = coro;
+            realTask = coro;
             this.trader = target;
             status = Status.Reacting;
         }

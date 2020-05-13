@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Model;
+using TMPro;
 
 namespace View
 {
@@ -11,6 +12,7 @@ namespace View
         Slider hpBar;
         Slider spBar;
         Slider proBar;
+        TMP_Text nameText;
 
         private void Start()
         {
@@ -19,6 +21,9 @@ namespace View
             hpBar = Bars[0];
             spBar = Bars[1];
             proBar = Bars[2];
+            nameText = GetComponentInChildren<TMP_Text>();
+
+            nameText.text = animal.Name;
 
             UpdateView();
             animal.StatusUpdated += UpdateView;

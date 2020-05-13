@@ -18,6 +18,7 @@ namespace Model.Items
         }
     }
 
+
     class hp : Potion
     {
         public override int HpPoint { get; } = 10;

@@ -15,10 +15,10 @@ namespace Model
         {
             for (int i = 0; i < 10; i++)
             {
-                Debug.Log("sleeping!");
                 if (user is Animal a)
                 {
                     a.HealHp(3);
+                    a.HealSp(1);
                 }
                 yield return new WaitForSeconds(1f);
             }
