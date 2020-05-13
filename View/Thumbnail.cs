@@ -17,11 +17,12 @@ namespace View
             animal = GameManager.Instance.player;
             Debug.Log(hpSlider.value.GetType());
             animal.StatusUpdated += UpdateUI;
+            hpSlider = GetComponentInChildren<Slider>();
         }
 
         public void UpdateUI()
         {
-            hpSlider.value = (float)animal.curHp / animal.maxHp;
+            hpSlider.value = (float)animal.combatAttr.curHp / animal.combatAttr.maxHp;
         }
 
     }

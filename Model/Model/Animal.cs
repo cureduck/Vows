@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Experimental.U2D.Animation;
+using UnityEditor;
 
 namespace Model
 {
@@ -21,18 +22,34 @@ namespace Model
         #endregion
 
         #region variable
-        public int curHp;
-        public int maxHp;
-        public int curSp;
-        public int maxSp;
-        public int minAtk;
-        public int maxAtk;
-        public float dodge;
-        public float crit;
-        public float def;
-        public int curMood;
-        public int maxMood;
 
+        [Serializable]
+        public struct CombatAttr
+        {
+            public int curHp;
+            public int maxHp;
+            public int curSp;
+            public int maxSp;
+            public int minAtk;
+            public int maxAtk;
+            public float dodge;
+            public float crit;
+            public float def;
+            public int curMood;
+            public int maxMood;
+        }
+
+        [Serializable]
+        public struct BaseAttr
+        {
+            public int Con;
+            public int Wis;
+            public int Str;
+            public int Int;
+        }
+
+        public CombatAttr combatAttr;
+        public BaseAttr baseAttr;
         public SkillExp skillExp;
 
         public new string name;
@@ -84,11 +101,6 @@ namespace Model
             GetAnimComponents();
         }
 
-        private static bool test(Entity t)
-        {
-            return true;
-        }
-
         public void SetDestination(Vector2 destiantion)
         {
             if (status==Status.Idle)
@@ -106,9 +118,9 @@ namespace Model
                 new Tuple<string, string>("Name:"+name,"Name"),
                 new Tuple<string, string>("Race:Human","The Race"),
                 new Tuple<string, string>("Bielf:Iron","The Blief"),
-                new Tuple<string, string>("HP:"+curHp.ToString()+"/"+maxHp.ToString(),"Health Point,Drop to 0 and character dies"),
-                new Tuple<string, string>("SP:"+curSp.ToString()+"/"+maxSp.ToString(),"Sprit Point,Drop to 0 and charater faint out"),
-                new Tuple<string, string>("ATK:"+minAtk.ToString()+"~"+maxAtk.ToString(),"Attack"),
+                new Tuple<string, string>("HP:"+combatAttr.curHp.ToString()+"/"+combatAttr.maxHp.ToString(),"Health Point,Drop to 0 and character dies"),
+                new Tuple<string, string>("SP:"+combatAttr.curSp.ToString()+"/"+combatAttr.maxSp.ToString(),"Sprit Point,Drop to 0 and charater faint out"),
+                new Tuple<string, string>("ATK:"+combatAttr.minAtk.ToString()+"~"+combatAttr.maxAtk.ToString(),"Attack"),
             };
 
             return status;
@@ -140,20 +152,20 @@ namespace Model
 
         internal void HealHp(int point)
         {
-            curHp = Math.Min(maxHp, point + curHp);
+            combatAttr.curHp = Math.Min(combatAttr.maxHp, point + combatAttr.curHp);
             StatusUpdated?.Invoke();
         }
 
         internal void HealSp(int point)
         {
-            curSp = Math.Min(maxSp, point + curSp);
+            combatAttr.curSp = Math.Min(combatAttr.maxSp, point + combatAttr.curSp);
             StatusUpdated?.Invoke();
         }
 
         internal void TakeHpDmg(int point)
         {
-            curHp = Math.Max(0, curHp - point);
-            if (curHp == 0)
+            combatAttr.curHp = Math.Max(0, combatAttr.curHp - point);
+            if (combatAttr.curHp == 0)
                 Die();
             StatusUpdated?.Invoke();
         }
@@ -161,13 +173,15 @@ namespace Model
 
         internal void TakeSpDmg(int point)
         {
-            curSp = Math.Max(0, curSp - point);
+            combatAttr.curSp = Math.Max(0, combatAttr.curSp - point);
             StatusUpdated?.Invoke();
         }
 
         internal void Die()
         {
-            Death();
+            Debug.Log("去世");
+            Death?.Invoke();
+            Destroy(gameObject);
         }
 
         public void Move2React(Entity target,int index=0)
@@ -233,5 +247,20 @@ namespace Model
 
 
         #endregion
+    }
+
+    [CustomEditor(typeof(Animal))]
+    public class AnimalEditor:Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+
+            Animal a = (Animal)target;
+            if (GUILayout.Button("Die"))
+            {
+                a.Die();
+            }
+        }
     }
 }

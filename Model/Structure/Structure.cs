@@ -21,7 +21,6 @@ namespace Model
 
         public void Awake()
         {
-            Debug.Log("structure awake");
             srs= GetComponentsInChildren<SpriteRenderer>();
             if (state==State.Building)
             {
