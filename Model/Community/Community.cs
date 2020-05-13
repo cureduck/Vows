@@ -5,13 +5,14 @@ using UnityEngine;
 namespace Model
 {
     [Serializable]
-    public abstract class Community
+    public class Community
     {
-        public enum State
+        public enum Status
         {
-            Building, Completed, Emergency, Dissolved
+            Building, Completed, Dissolved
         }
-        public bool Dissolved;
+
+        public Status status;
         public Class[] Classes { get; protected set; }
 
         public Community(Class[] classes)
@@ -42,7 +43,7 @@ namespace Model
             string s = "";
             foreach (var roles in Classes)
             {
-                s += roles.RoleName + ":" + roles.Actors.First.Value.ToString();
+                s += roles.ClassName + ":";// + roles.Actors.First.Value.ToString();
             }
             return s;
         }
@@ -76,12 +77,12 @@ namespace Model
     [Serializable]
     public class Class
     {
-        private Community community;
-        private int rank;
+        [NonSerialized] private Community community;
+        public int rank;
 
-        public virtual string RoleName { get; }
+        public string ClassName;
+        public RangeInt Capacity;
         public LinkedList<Animal> Actors;
-        public virtual RangeInt Capacity { get; }
 
         public void TakeNew(Animal animal)
         {
@@ -115,7 +116,7 @@ namespace Model
 
         public override string ToString()
         {
-            return RoleName + ":" + Actors.Count;
+            return ClassName + ":" + Actors.Count;
         }
     }
 }

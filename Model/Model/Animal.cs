@@ -264,8 +264,6 @@ namespace Model
             {
                 a.Die();
             }
-
-
         }
     }
 }

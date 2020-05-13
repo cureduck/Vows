@@ -1,11 +1,70 @@
 ﻿using System;
 using UnityEngine;
+using TMPro;
+using UnityEditor;
+
 
 namespace Model
 {
     public class ClassView : PanelTemplate<Class, Animal>
     {
 
+        private TMP_InputField className, minCap, maxCap;
+
+        private void Start()
+        {
+            var tmps = GetComponentsInChildren<TMP_InputField>();
+            className = tmps[0];
+            minCap = tmps[1];
+            maxCap = tmps[2];
+            value = new Class();
+            value.Capacity = new RangeInt(1, 0);
+        }
+        
+        public void UpdateValue()
+        {
+            value.ClassName = className.text;
+            value.Capacity = new RangeInt(int.Parse(minCap.text), int.Parse(maxCap.text));
+        }
+
+        public void CheckLegal()
+        {
+            int t;
+            if (int.TryParse(minCap.text,out t))
+            {
+                value.Capacity.start = t;
+            }
+            else
+            {
+                minCap.text = value.Capacity.start.ToString();
+            }
+
+            if (int.TryParse(maxCap.text, out t))
+            {
+                value.Capacity.length = t-value.Capacity.start;
+            }
+            else
+            {
+                maxCap.text = value.Capacity.end.ToString();
+            }
+
+        }
+
     }
 
+
+    [CustomEditor(typeof(ClassView))]
+    public class ClassViewEditor:Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+            var a = (ClassView)target;
+
+            if (a.value==null)
+            {
+                EditorGUILayout.HelpBox("No Target",MessageType.Warning);
+            }
+        }
+    }
 }
