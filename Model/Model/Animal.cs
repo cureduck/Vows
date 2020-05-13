@@ -11,14 +11,12 @@ using UnityEditor;
 namespace Model
 {
 
-    [RequireComponent(typeof(TileAI),typeof(BoxCollider2D),typeof(Rigidbody2D))]
+    [RequireComponent(typeof(TileAI),typeof(CapsuleCollider2D),typeof(Rigidbody2D))]
     public partial class Animal : Entity
     {
         #region property
         public Vector2 velocity { get => agent.velocity; }
-        private SpriteResolver body;
-        private SpriteResolver eyes;
-        private SpriteResolver head;
+        private SpriteResolver body,eyes,head;
         #endregion
 
         #region variable
@@ -98,7 +96,7 @@ namespace Model
         {
             agent = GetComponent<TileAI>();
             animator = GetComponent<Animator>();
-            GetAnimComponents();
+            //GetAnimComponents();
         }
 
         public void SetDestination(Vector2 destiantion)
@@ -106,7 +104,7 @@ namespace Model
             if (status==Status.Idle)
             {
                 agent.SetDestination(destiantion);
-                UpdateFace();
+                //UpdateFace();
             }
         }
 

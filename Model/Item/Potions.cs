@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Model
+namespace Model.Items
 {
     public abstract class Potion : Item
     {

@@ -18,6 +18,7 @@ namespace Model
         public event Action<Entity> ReactCompleted;
         public event Action<Entity> ReactInturrpted;
         public event Action AttrUpdated;
+        public event Action<float> ProgressUpdated;
 
         [SerializeField]
         protected Coroutine curTask;
@@ -32,7 +33,7 @@ namespace Model
             AttrUpdated?.Invoke();
         }
 
-        public enum Status { Idle,Reacting,Stun}
+        public enum Status { Idle, Reacting, Stun}
         [SerializeField] private Status _status = Status.Idle;
         public virtual Status status { get => _status; set => _status = value; }
 
