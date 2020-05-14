@@ -10,13 +10,13 @@ namespace View
 
         public CommunityView communityView;
 
-        public override Community[] source
+        public override Community[] components
         {
             get
             {
                 return CommunityManager.Instance.communities;
             }
-            set => base.source = value;
+            set => base.components = value;
         }
 
 

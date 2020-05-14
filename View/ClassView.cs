@@ -63,7 +63,7 @@ namespace View
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
-            var a = (ClassView)target;
+            var a = (CommunityIcon)target;
 
             if (a.value==null)
             {

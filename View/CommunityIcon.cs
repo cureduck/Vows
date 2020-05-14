@@ -18,8 +18,8 @@ namespace View
 
         protected override void UpdateUI()
         {
-            name_text.text = value.name;
             Debug.Log(value);
+            name_text.text = value.name;
         }
 
         public void DisplayThis()

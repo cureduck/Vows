@@ -12,6 +12,8 @@ namespace Manager
         public Community[] communities { get => _communities.ToArray(); }
         public LinkedList<Community> _communities;
 
+
+
         public event Action CommunityAdded;
 
         void Start()

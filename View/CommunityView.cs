@@ -4,15 +4,19 @@ using Model;
 using UnityEditor;
 using System.Linq;
 using Manager;
+using TMPro;
 
 namespace View
 {
     class CommunityView : ListTemplate<Community,Class, ClassView>
     {
-        public override Class[] source { get => value.Classes; set => this.value.Classes = value; }
+        public override Class[] components { get => value.Classes; set => this.value.Classes = value; }
+        TMP_InputField nameInput;
 
         public void Start()
         {
+            nameInput = GetComponentInChildren<TMP_InputField>();
+
             if (value != null)
             {
                 UpdateUI();
@@ -37,6 +41,7 @@ namespace View
             }
 
             value = new Community(classes);
+            value.name = nameInput.text;
             CommunityManager.Instance.AddNew(value);
         }
 

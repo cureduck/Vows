@@ -6,7 +6,7 @@ namespace View
     public abstract class ListTemplate<T0,T1,T1Icon>:Icon<T0> where T1Icon:Icon<T1>
     {
 
-        public virtual T1[] source { get; set; }
+        public virtual T1[] components { get; set; }
         public T1Icon template;
         [SerializeField] protected Transform ChildSection;
 
@@ -17,10 +17,9 @@ namespace View
             {
                 Destroy(child.gameObject);
             }
-            foreach (var item in source)
+            foreach (var item in components)
             {
-                template.value = item;
-                Instantiate(template, parent: ChildSection);
+                Instantiate(template, parent: ChildSection).value=item;
             }
         }
 
