@@ -2,9 +2,10 @@
 using UnityEngine;
 using TMPro;
 using UnityEditor;
+using Model;
 
 
-namespace Model
+namespace View
 {
     public class ClassView : PanelTemplate<Class, Animal>
     {
