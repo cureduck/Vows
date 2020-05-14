@@ -11,9 +11,9 @@ namespace Model
         {
             Building, Completed, Dissolved
         }
-
+        public string name = "00";
         public Status status;
-        public Class[] Classes { get; protected set; }
+        public Class[] Classes { get; set; }
 
         public Community(Class[] classes)
         {

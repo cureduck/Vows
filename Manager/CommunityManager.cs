@@ -9,27 +9,20 @@ namespace Manager
 {
     public class CommunityManager:Singleton<CommunityManager>
     {
-        public Community[] communities;
+        public Community[] communities { get => _communities.ToArray(); }
+        public LinkedList<Community> _communities;
+
+        public event Action CommunityAdded;
 
         void Start()
         {
-            communities = new Community[12];
-            foreach (var item in communities)
-            {
-                Debug.Log(item);
-            }
+            _communities =new LinkedList<Community>();
         }
 
         public void AddNew(Community community)
         {
-            for (int i = 0; i < communities.Length; i++)
-            {
-                if (communities[i]==null)
-                {
-                    communities[i] = community;
-                    break;
-                }
-            }
+            _communities.AddLast(community);
+            CommunityAdded?.Invoke();
         }
 
 

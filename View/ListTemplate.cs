@@ -3,22 +3,30 @@ using UnityEngine;
 
 namespace View
 {
-    class ListTemplate<T1,T2>:MonoBehaviour where T2:Icon<T1>
+    public abstract class ListTemplate<T0,T1,T1Icon>:Icon<T0> where T1Icon:Icon<T1>
     {
-        public T1[] source;
-        public T2 template;
+
+        public virtual T1[] source { get; set; }
+        public T1Icon template;
+        [SerializeField] protected Transform ChildSection;
 
 
-        public void Display()
+        protected override void UpdateUI()
         {
-            foreach (Transform child in transform)
+            foreach (Transform child in ChildSection)
             {
                 Destroy(child.gameObject);
             }
             foreach (var item in source)
             {
-                Instantiate(template, transform);
+                template.value = item;
+                Instantiate(template, parent: ChildSection);
             }
+        }
+
+        public virtual void AddNewTemplate()
+        {
+            Instantiate(template, parent: ChildSection);
         }
     }
 }

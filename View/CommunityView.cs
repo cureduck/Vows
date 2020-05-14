@@ -7,22 +7,30 @@ using Manager;
 
 namespace View
 {
-    public class CommunityView : PanelTemplate<Community, Class>
+    class CommunityView : ListTemplate<Community,Class, ClassView>
     {
-        public ClassView classViewTemplate;
+        public override Class[] source { get => value.Classes; set => this.value.Classes = value; }
 
-        public void AddNewClass()
+        public void Start()
         {
-            classViewTemplate.value.rank= transform.childCount;
-            Instantiate(classViewTemplate, parent: this.transform);
+            if (value != null)
+            {
+                UpdateUI();
+            }
+        }
+
+        public override void AddNewTemplate()
+        {
+            template.value.rank = ChildSection.childCount;
+            base.AddNewTemplate();
         }
 
         public void CreateCommunity()
         {
-            Class[] classes = new Class[transform.childCount];
+            Class[] classes = new Class[ChildSection.childCount];
             int i = 0;
 
-            foreach (Transform child in transform)
+            foreach (Transform child in ChildSection)
             {
                 classes[i]= child.gameObject.GetComponent<ClassView>().value;
                 i++;
@@ -37,6 +45,11 @@ namespace View
         {
             Debug.Log(value);
         }
+
+        protected override void UpdateUI()
+        {
+            base.UpdateUI();
+        }
     }
 
 
@@ -50,7 +63,7 @@ namespace View
             CommunityView a = (CommunityView)target;
             if (GUILayout.Button("Add New Class"))
             {
-                a.AddNewClass();
+                a.AddNewTemplate();
             }
 
             if (GUILayout.Button("Build New Community"))

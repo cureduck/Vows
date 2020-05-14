@@ -5,9 +5,11 @@ namespace View
 {
     public abstract class Icon<T>:MonoBehaviour
     {
-        public T value { get; }
+        private T _value;
+        public virtual T value { get { return _value; } set{ _value = value;UpdateUI(); }}
+
+        protected abstract void UpdateUI();
+
 
     }
-
-
 }
