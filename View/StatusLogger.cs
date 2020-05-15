@@ -31,7 +31,7 @@ namespace View
         {
             var tmp = _animal.combatAttr;
             _hpBar.value =(float) tmp.curHp / tmp.maxHp;
-            _spBar.value = (float)tmp.curSp / tmp.maxSp;
+            _spBar.value = (float) tmp.curSp / tmp.maxSp;
         }
 
         private void UpdateProgress(float progress)

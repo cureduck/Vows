@@ -9,14 +9,14 @@ namespace Manager
 {
     public class CommunityManager:Singleton<CommunityManager>
     {
-        public Community[] communities { get => _communities.ToArray(); }
+        public Community[] communities => _communities.ToArray();
         public LinkedList<Community> _communities;
 
 
 
-        public event Action CommunityAdded;
+        public event Action CommunityChanged;
 
-        private void Start()
+        private void Awake()
         {
             _communities =new LinkedList<Community>();
         }
@@ -24,7 +24,12 @@ namespace Manager
         public void AddNew(Community community)
         {
             _communities.AddLast(community);
-            CommunityAdded?.Invoke();
+            CommunityChanged?.Invoke();
+        }
+
+        protected virtual void OnCommunityChanged()
+        {
+            CommunityChanged?.Invoke();
         }
     }
 

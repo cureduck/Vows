@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Model
@@ -12,8 +13,21 @@ namespace Model
             Building, Completed, Dissolved
         }
         public string name = "00";
-        public Status status;
+
+        private Status _status;
+        public Status status 
+        {
+            get=>_status;
+            set
+            {
+                _status = value;
+                StatusChanged?.Invoke();
+            }
+        }
         public Class[] Classes { get; set; }
+
+        public event Action StatusChanged; 
+        
 
         public Community(Class[] classes)
         {
@@ -26,33 +40,26 @@ namespace Model
         /// <returns></returns>
         public virtual void PostionAdjust()
         {
-            for (int i = 0; i <Classes.Length ; i++)
+            for (var i = 0; i <Classes.Length ; i++)
             {
-                if (Classes[i].Actors.Count<Classes[i].Capacity.start)
-                {
-                    Debug.Log(Classes[i + 1].Actors.First.Value.Name + "继任了");
+                if (Classes[i].actors.Count >= Classes[i].capacity.start) continue;
+                Debug.Log(Classes[i + 1].actors.First.Value.Name + "继任了");
 
-                    Classes[i].Actors.AddLast(Classes[i + 1].Actors.First.Value);
-                    Classes[i + 1].Actors.RemoveFirst();
-                }
+                Classes[i].actors.AddLast(Classes[i + 1].actors.First.Value);
+                Classes[i + 1].actors.RemoveFirst();
             }
         }
 
         public override string ToString()
         {
-            string s = "";
-            foreach (var roles in Classes)
-            {
-                s += roles.ClassName + ":";// + roles.Actors.First.Value.ToString();
-            }
-            return s;
+            return Classes.Aggregate("", (current, roles) => current + (roles.className + ":"));
         }
 
         public void Remove(Animal person)
         {
-            for (int i = 0; i < Classes.Length; i++)
+            foreach (var t in Classes)
             {
-                Classes[i].Actors.Remove(person);
+                t.actors.Remove(person);
             }
 
             PostionAdjust();
@@ -60,9 +67,9 @@ namespace Model
 
         public bool TryAdd(Animal person,int rank)
         {
-            if (Classes[rank].Actors.Count< Classes[rank].Capacity.end)
+            if (Classes[rank].actors.Count< Classes[rank].capacity.end)
             {
-                Classes[rank].Actors.AddLast(person);
+                Classes[rank].actors.AddLast(person);
                 return true;
             }
             else
@@ -77,22 +84,22 @@ namespace Model
     [Serializable]
     public class Class
     {
-        [NonSerialized] private Community community;
+        [NonSerialized] private Community _community;
         public int rank;
 
-        public string ClassName;
-        public RangeInt Capacity;
-        public LinkedList<Animal> Actors;
+        public string className;
+        public RangeInt capacity;
+        public LinkedList<Animal> actors;
 
         public void TakeNew(Animal animal)
         {
-            animal.Death += community.Remove;
-            Actors.AddLast(animal);
+            animal.Death += _community.Remove;
+            actors.AddLast(animal);
         }
 
         public Class()
         {
-            
+            actors=new LinkedList<Animal>();
         }
 
 
@@ -106,7 +113,7 @@ namespace Model
         {
             if (this.rank < rank)
             {
-                return community.TryAdd(animal, rank);
+                return _community.TryAdd(animal, rank);
             }
             else
             {
@@ -116,7 +123,7 @@ namespace Model
 
         public override string ToString()
         {
-            return ClassName + ":" + Actors.Count;
+            return className + ":" + actors.Count;
         }
     }
 }

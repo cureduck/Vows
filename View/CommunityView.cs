@@ -10,13 +10,12 @@ namespace View
 {
     class CommunityView : ListTemplate<Community,Class, ClassView>
     {
-        public override Class[] components { get => value.Classes; set => this.value.Classes = value; }
-        TMP_InputField nameInput;
+        protected override Class[] components { get => value.Classes; set => this.value.Classes = value; }
+        private TMP_InputField _nameInput;
 
-        public void Start()
+        private void Start()
         {
-            nameInput = GetComponentInChildren<TMP_InputField>();
-
+            _nameInput = GetComponentInChildren<TMP_InputField>();
             UpdateUI();
         }
 
@@ -24,7 +23,6 @@ namespace View
         {
             var t= AddNewTemplate();
             t.status = Community.Status.Building;
-            
         }
 
 
@@ -39,31 +37,33 @@ namespace View
                 i++;
             }
 
-            value = new Community(classes);
-            value.name = nameInput.text;
-            value.status = Community.Status.Completed;
+            value = new Community(classes) {name = _nameInput.text, status = Community.Status.Completed};
             CommunityManager.Instance.AddNew(value);
         }
-
         
-        public void Log()
-        {
-            Debug.Log(value);
-        }
 
         protected override void UpdateUI()
         {
+            if (value==null) return;
             template.status = value.status;
             base.UpdateUI();
-            if (value.status==Community.Status.Building)
+            _nameInput.interactable = value.status==Community.Status.Building;
+
+        }
+
+        public void CompleteCommunity()
+        {
+            var classes = new Class[childSection.childCount];
+            var i = 0;
+            foreach (Transform child in childSection)
             {
-                nameInput.interactable = true;
-            }
-            else
-            {
-                nameInput.interactable = false;
+                classes[i]= child.gameObject.GetComponent<ClassView>().value;
+                i++;
             }
 
+            value.Classes = classes;
+            value.name = _nameInput.text;
+            value.status = Community.Status.Completed;
         }
     }
 
@@ -81,11 +81,12 @@ namespace View
             {
                 a.CreateCommunity();
             }
-
-            if (GUILayout.Button("Log Community"))
+            
+            if (a.value==null)
             {
-                a.Log();
+                EditorGUILayout.HelpBox("No Target",MessageType.Warning);
             }
+            
         }
     }
 

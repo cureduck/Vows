@@ -15,10 +15,10 @@ namespace View
 
         private void Awake()
         {
-            //value = new Class {Capacity = new RangeInt(1, 0)};
             switch (status)
             {
                 case Community.Status.Building:
+                    value = new Class {capacity = new RangeInt(1, 0)};
                     className.interactable = true;
                     minCap.interactable = true;
                     maxCap.interactable = true;
@@ -40,38 +40,38 @@ namespace View
 
         public void UpdateValue()
         {
-            value.ClassName = className.text;
-            value.Capacity = new RangeInt(int.Parse(minCap.text), int.Parse(maxCap.text));
+            value.className = className.text;
+            value.capacity = new RangeInt(int.Parse(minCap.text), int.Parse(maxCap.text));
         }
 
         public void CheckLegal()
         {
-            int t;
-            if (int.TryParse(minCap.text, out t))
+            if (int.TryParse(minCap.text, out var t))
             {
-                value.Capacity.start = t;
+                value.capacity.start = t;
             }
             else
             {
-                minCap.text = value.Capacity.start.ToString();
+                minCap.text = value.capacity.start.ToString();
             }
 
             if (int.TryParse(maxCap.text, out t))
             {
-                value.Capacity.length = t - value.Capacity.start;
+                value.capacity.length = t - value.capacity.start;
             }
             else
             {
-                maxCap.text = value.Capacity.end.ToString();
+                maxCap.text = value.capacity.end.ToString();
             }
 
         }
 
         protected override void UpdateUI()
         {
-            className.text=value.ClassName;
-            minCap.text = value.Capacity.start.ToString();
-            maxCap.text = value.Capacity.end.ToString();
+            className.text=value.className;
+            minCap.text = value.capacity.start.ToString();
+            maxCap.text = value.capacity.end.ToString();
+            base.UpdateUI();
 
         }
     }

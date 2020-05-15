@@ -9,7 +9,7 @@ namespace View
     {
 
         public CommunityView communityView;
-        [SerializeField] private TMP_Text name_text;
+        [SerializeField] private TMP_Text nameText;
 
         void Awake()
         {
@@ -19,12 +19,11 @@ namespace View
         protected override void UpdateUI()
         {
             Debug.Log(value);
-            name_text.text = value.name;
+            nameText.text = value.name;
         }
 
         public void DisplayThis()
         {
-            Debug.Log(value);
             communityView.value = value;
         }
     }

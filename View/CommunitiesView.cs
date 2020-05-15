@@ -10,7 +10,7 @@ namespace View
 
         public CommunityView communityView;
 
-        public override Community[] components
+        protected override Community[] components
         {
             get => CommunityManager.Instance.communities;
             set => base.components = value;
@@ -20,8 +20,18 @@ namespace View
         private void Start()
         {
             template.communityView = communityView;
-            CommunityManager.Instance.CommunityAdded += UpdateUI;
+            CommunityManager.Instance.CommunityChanged += UpdateUI;
             UpdateUI();
         }
+
+        public override void AddNewItem()
+        {
+            var t= AddNewTemplate();
+            t.value = new Community(new Class[1]{new Class() }) {status = Community.Status.Building};
+        }
     }
+    
+    
+    
+    
 }
