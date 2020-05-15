@@ -8,12 +8,14 @@ namespace Model
     [Serializable]
     public class Class
     {
+        public string name;
         [NonSerialized] private Community _community;
         public int rank;
 
-        public string className;
         public RangeInt capacity;
         public LinkedList<Animal> actors;
+
+        public int count=> actors?.Count ?? 0;
 
         public void TakeNew(Animal animal)
         {
@@ -47,7 +49,7 @@ namespace Model
 
         public override string ToString()
         {
-            return className + ":" + actors.Count;
+            return name + ":" + actors.Count;
         }
     }
     

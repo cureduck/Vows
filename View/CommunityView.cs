@@ -10,7 +10,7 @@ namespace View
 {
     class CommunityView : ListTemplate<Community,Class, ClassView>
     {
-        protected override Class[] components { get => value.Classes; set => this.value.Classes = value; }
+        protected override Class[] components { get => value.classes; set => this.value.classes = value; }
         private TMP_InputField _nameInput;
 
         private void Start()
@@ -61,7 +61,7 @@ namespace View
                 i++;
             }
 
-            value.Classes = classes;
+            value.classes = classes;
             value.name = _nameInput.text;
             value.status = Community.Status.Completed;
         }

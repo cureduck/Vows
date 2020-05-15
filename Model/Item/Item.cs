@@ -4,13 +4,15 @@ using UnityEngine;
 namespace Model
 {
     [Serializable]
-    public abstract class Item
+    public class Item
     {
-        public virtual string ItemName { get; }
-        public virtual string ItemDesc { get; }
+        public string name;
+        public int amount = 1;
+        public virtual string className { get; }
+        public virtual string itemDesc { get; }
         // 反射调用字段，不能更改命名
-        public virtual Sprite ItemSprite { get; internal set; }
-        public virtual string SpriteName { get; internal set; } = null;
+        public virtual Sprite itemSprite { get; internal set; }
+        public virtual string spriteName { get; internal set; } = null;
     }
 
     

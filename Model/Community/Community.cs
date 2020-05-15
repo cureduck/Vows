@@ -25,14 +25,15 @@ namespace Model
                 StatusChanged?.Invoke();
             }
         }
-        public Class[] Classes { get; set; }
+
+        public Class[] classes;
 
         public event Action StatusChanged; 
         
 
         public Community(Class[] classes)
         {
-            Classes = classes;
+            this.classes = classes;
         }
 
         /// <summary>
@@ -41,24 +42,24 @@ namespace Model
         /// <returns></returns>
         public virtual void PostionAdjust()
         {
-            for (var i = 0; i <Classes.Length ; i++)
+            for (var i = 0; i <classes.Length ; i++)
             {
-                if (Classes[i].actors.Count >= Classes[i].capacity.start) continue;
-                Debug.Log(Classes[i + 1].actors.First.Value.Name + "继任了");
+                if (classes[i].actors.Count >= classes[i].capacity.start) continue;
+                Debug.Log(classes[i + 1].actors.First.Value.name + "继任了");
 
-                Classes[i].actors.AddLast(Classes[i + 1].actors.First.Value);
-                Classes[i + 1].actors.RemoveFirst();
+                classes[i].actors.AddLast(classes[i + 1].actors.First.Value);
+                classes[i + 1].actors.RemoveFirst();
             }
         }
 
         public override string ToString()
         {
-            return Classes.Aggregate("", (current, roles) => current + (roles.className + ":"));
+            return classes.Aggregate("", (current, roles) => current + (roles.name + ":"));
         }
 
         public void Remove(Animal person)
         {
-            foreach (var t in Classes)
+            foreach (var t in classes)
             {
                 t.actors.Remove(person);
             }
@@ -68,9 +69,9 @@ namespace Model
 
         public bool TryAdd(Animal person,int rank)
         {
-            if (Classes[rank].actors.Count< Classes[rank].capacity.end)
+            if (classes[rank].actors.Count< classes[rank].capacity.end)
             {
-                Classes[rank].actors.AddLast(person);
+                classes[rank].actors.AddLast(person);
                 return true;
             }
             else

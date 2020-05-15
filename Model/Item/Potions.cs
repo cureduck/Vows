@@ -24,11 +24,11 @@ namespace Model.Items
         public override int HpPoint { get; } = 10;
         public override int SpPoint { get; } = 0;
 
-        public override string ItemName { get; }="Big Potion";
+        public override string className { get; }="Big Potion";
 
-        public override string ItemDesc { get; } = "Big Potion";
+        public override string itemDesc { get; } = "Big Potion";
 
-        public override Sprite ItemSprite { get; internal set; }
+        public override Sprite itemSprite { get; internal set; }
     }
 
     class mp : Potion
@@ -36,11 +36,11 @@ namespace Model.Items
         public override int HpPoint { get; } = 3;
         public override int SpPoint { get; } = 0;
 
-        public override string ItemName { get; } = "Big Potion";
+        public override string className { get; } = "Big Potion";
 
-        public override string ItemDesc { get; } = "Big Potion";
+        public override string itemDesc { get; } = "Big Potion";
 
-        public override Sprite ItemSprite { get; internal set; }
+        public override Sprite itemSprite { get; internal set; }
     }
 
 }

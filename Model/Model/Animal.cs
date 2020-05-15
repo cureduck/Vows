@@ -16,6 +16,7 @@ namespace Model
     {
         #region property
 
+        public string name;
         private Vector2 velocity => _agent.velocity;
         private SpriteResolver body,eyes,head;
         #endregion
@@ -51,7 +52,6 @@ namespace Model
         public BaseAttr baseAttr;
         public SkillExp skillExp;
 
-        public string Name;
         public Race race;
         public Profession prof;
         public Skill[] skills;
@@ -214,25 +214,11 @@ namespace Model
 
         public override string ToString()
         {
-            return Name;
+            return name;
         }
 
 
         #endregion
     }
-
-    [CustomEditor(typeof(Animal))]
-    public class AnimalEditor:Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
-
-            Animal a = (Animal)target;
-            if (GUILayout.Button("Die"))
-            {
-                a.Die();
-            }
-        }
-    }
+    
 }

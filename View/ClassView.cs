@@ -40,7 +40,7 @@ namespace View
 
         public void UpdateValue()
         {
-            value.className = className.text;
+            value.name = className.text;
             value.capacity = new RangeInt(int.Parse(minCap.text), int.Parse(maxCap.text));
         }
 
@@ -68,7 +68,7 @@ namespace View
 
         protected override void UpdateUI()
         {
-            className.text=value.className;
+            className.text=value.name;
             minCap.text = value.capacity.start.ToString();
             maxCap.text = value.capacity.end.ToString();
             base.UpdateUI();

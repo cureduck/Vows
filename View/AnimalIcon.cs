@@ -13,7 +13,7 @@ namespace View
 
         protected override void UpdateUI()
         {
-            nameInput.text = _animal.Name;
+            nameInput.text = _animal.name;
         }
 
         private void Awake()

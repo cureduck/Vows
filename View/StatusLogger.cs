@@ -21,7 +21,7 @@ namespace View
             _proBar = bars[2];
             _nameText = GetComponentInChildren<TMP_Text>();
 
-            _nameText.text = _animal.Name;
+            _nameText.text = _animal.name;
 
             UpdateView();
             _animal.StatusUpdated += UpdateView;

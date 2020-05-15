@@ -34,7 +34,7 @@ namespace Manager
             {
                 var sample = (Item)System.Activator.CreateInstance(type);
                 var sprite = resources.First((s) => s.name == type.Name);
-                type.GetProperty("ItemSprite")?.SetValue(sample, sprite);
+                type.GetProperty("itemSprite")?.SetValue(sample, sprite);
                 items[i] = sample;
                 i++;
             }
