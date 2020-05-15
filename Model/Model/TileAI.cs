@@ -11,13 +11,13 @@ namespace Model
     [RequireComponent(typeof(Rigidbody2D))]
     class TileAI:MonoBehaviour
     {
-        private Rigidbody2D rb;
-        public Vector2 position { get => rb.position; }
+        private Rigidbody2D _rb;
+        private Vector2 position => _rb.position;
         public float speed = 3f;
         private Vector2 _destination;
-        public Vector2 velocity { get => rb.velocity; }
+        public Vector2 velocity { get => _rb.velocity; }
         private bool _canMove=true;
-        public bool canMove { get=>_canMove; set { _canMove = value; if (value) { SetDestination(_destination); } else { rb.velocity = Vector2.zero; } } }
+        public bool canMove { get=>_canMove; set { _canMove = value; if (value) { SetDestination(_destination); } else { _rb.velocity = Vector2.zero; } } }
 
         public event Action Reached;
 
@@ -25,7 +25,7 @@ namespace Model
 
         private void Start()
         {
-            rb = GetComponent<Rigidbody2D>();
+            _rb = GetComponent<Rigidbody2D>();
         }
 
         public void SetDestination(Vector2 destination)
@@ -33,22 +33,18 @@ namespace Model
             hasReached = false;
             _destination = destination;
             var dir= (destination - position).normalized;
-            rb.velocity = dir * speed;
+            _rb.velocity = dir * speed;
         }
 
 
         private void Update()
         {
-            if (!hasReached)
-            {
-                if (Vector2.Distance(_destination, position) < 0.01f*speed)
-                {
-                    rb.velocity = Vector2.zero;
-                    transform.position = _destination;
-                    Reached?.Invoke();
-                    hasReached = true;
-                }
-            }
+            if (hasReached) return;
+            if (!(Vector2.Distance(_destination, position) < 0.01f * speed)) return;
+            _rb.velocity = Vector2.zero;
+            transform.position = _destination;
+            Reached?.Invoke();
+            hasReached = true;
         }
     }
 }

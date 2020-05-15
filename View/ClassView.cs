@@ -11,12 +11,32 @@ namespace View
     {
 
         [SerializeField] private TMP_InputField className, minCap, maxCap;
+        public Community.Status status;
 
         private void Awake()
         {
-            value = new Model.Class();
-            value.Capacity = new RangeInt(1, 0);
-        }
+            //value = new Class {Capacity = new RangeInt(1, 0)};
+            switch (status)
+            {
+                case Community.Status.Building:
+                    className.interactable = true;
+                    minCap.interactable = true;
+                    maxCap.interactable = true;
+                    break;
+                case Community.Status.Completed:
+                    className.interactable = false;
+                    minCap.interactable = false;
+                    maxCap.interactable = false;
+                    break;
+                case Community.Status.Dissolved:
+                    className.interactable = false;
+                    minCap.interactable = false;
+                    maxCap.interactable = false;
+                    break;
+                default:
+                    break;
+            }
+        }        
 
         public void UpdateValue()
         {
@@ -49,7 +69,7 @@ namespace View
 
         protected override void UpdateUI()
         {
-            className.text=value.ClassName ;
+            className.text=value.ClassName;
             minCap.text = value.Capacity.start.ToString();
             maxCap.text = value.Capacity.end.ToString();
 

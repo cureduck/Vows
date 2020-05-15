@@ -7,16 +7,16 @@ namespace Model
     public class AnimAgent:MonoBehaviour
     {
 
-        private Animator animator;
-        private Entity model;
+        private Animator _animator;
+        private Entity _model;
 
 
 
         protected virtual void Awake()
         {
             
-            animator = GetComponent<Animator>();
-            model = GetComponent<Entity>();
+            _animator = GetComponent<Animator>();
+            _model = GetComponent<Entity>();
 
             /*
             System.Reflection.MethodInfo[] methods = model.GetType().GetMethods();

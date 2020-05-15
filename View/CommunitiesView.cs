@@ -5,22 +5,19 @@ using Manager;
 
 namespace View
 {
-    class CommunitiesView:ListTemplate<Community[],Community,CommunityIcon>
+    internal class CommunitiesView:ListTemplate<Community[],Community,CommunityIcon>
     {
 
         public CommunityView communityView;
 
         public override Community[] components
         {
-            get
-            {
-                return CommunityManager.Instance.communities;
-            }
+            get => CommunityManager.Instance.communities;
             set => base.components = value;
         }
 
 
-        void Start()
+        private void Start()
         {
             template.communityView = communityView;
             CommunityManager.Instance.CommunityAdded += UpdateUI;

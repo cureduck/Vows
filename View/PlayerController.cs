@@ -144,7 +144,7 @@ namespace View
 
         public void FindStru(string name)
         {
-            origin= StructureManager.Instance.struMap[name].GetComponent<Structure>();
+            origin= StrucManager.Instance.struMap[name].GetComponent<Structure>();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Manager
         {
             get
             {
-                if (applicationIsQuitting)
+                if (_applicationIsQuitting)
                 {
                     return null;
                 }
@@ -48,11 +48,11 @@ namespace Manager
             }
         }
 
-        private static bool applicationIsQuitting = false;
+        private static bool _applicationIsQuitting = false;
 
         public void OnDestroy()
         {
-            applicationIsQuitting = true;
+            _applicationIsQuitting = true;
         }
     }
 }

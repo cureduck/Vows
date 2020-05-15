@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Manager
 {
-    class StructureManager:Singleton<StructureManager>
+    class StrucManager:Singleton<StrucManager>
     {
         public Dictionary<string, GameObject> struMap;
         public GameObject[] items;
@@ -16,7 +16,7 @@ namespace Manager
             RegisterItems();
         }
 
-        public void RegisterItems()
+        private void RegisterItems()
         {
             var resources = Resources.LoadAll<GameObject>("Prefabs/Structures");
             var types = Utils.GetSubClasses(typeof(Structure));

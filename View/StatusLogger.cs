@@ -8,32 +8,30 @@ namespace View
 {
     class StatusLogger : MonoBehaviour
     {
-        Animal animal;
-        Slider hpBar;
-        Slider spBar;
-        Slider proBar;
-        TMP_Text nameText;
+        private Animal _animal;
+        private Slider _hpBar, _spBar, _proBar;
+        private TMP_Text _nameText;
 
         private void Start()
         {
-            animal = GetComponentInParent<Animal>();
-            var Bars = GetComponentsInChildren<Slider>();
-            hpBar = Bars[0];
-            spBar = Bars[1];
-            proBar = Bars[2];
-            nameText = GetComponentInChildren<TMP_Text>();
+            _animal = GetComponentInParent<Animal>();
+            var bars = GetComponentsInChildren<Slider>();
+            _hpBar = bars[0];
+            _spBar = bars[1];
+            _proBar = bars[2];
+            _nameText = GetComponentInChildren<TMP_Text>();
 
-            nameText.text = animal.Name;
+            _nameText.text = _animal.Name;
 
             UpdateView();
-            animal.StatusUpdated += UpdateView;
+            _animal.StatusUpdated += UpdateView;
         }
 
         private void UpdateView()
         {
-            var tmp = animal.combatAttr;
-            hpBar.value =(float) tmp.curHp / tmp.maxHp;
-            spBar.value = (float)tmp.curSp / tmp.maxSp;
+            var tmp = _animal.combatAttr;
+            _hpBar.value =(float) tmp.curHp / tmp.maxHp;
+            _spBar.value = (float)tmp.curSp / tmp.maxSp;
         }
 
         private void UpdateProgress(float progress)
@@ -41,14 +39,14 @@ namespace View
             switch (progress)
             {
                 case 0:
-                    proBar.gameObject.SetActive(false);
+                    _proBar.gameObject.SetActive(false);
                     break;
                 case 1:
-                    proBar.gameObject.SetActive(false);
+                    _proBar.gameObject.SetActive(false);
                     break;
                 default:
-                    proBar.gameObject.SetActive(true);
-                    proBar.value = progress;
+                    _proBar.gameObject.SetActive(true);
+                    _proBar.value = progress;
                     break;
             }
         }

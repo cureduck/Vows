@@ -16,7 +16,7 @@ namespace Manager
 
         public event Action CommunityAdded;
 
-        void Start()
+        private void Start()
         {
             _communities =new LinkedList<Community>();
         }
@@ -26,9 +26,6 @@ namespace Manager
             _communities.AddLast(community);
             CommunityAdded?.Invoke();
         }
-
-
-
     }
 
     [CustomEditor(typeof(CommunityManager))]

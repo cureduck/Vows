@@ -15,7 +15,8 @@ namespace Model
     public partial class Animal : Entity
     {
         #region property
-        public Vector2 velocity { get => agent.velocity; }
+
+        private Vector2 velocity => _agent.velocity;
         private SpriteResolver body,eyes,head;
         #endregion
 
@@ -56,8 +57,8 @@ namespace Model
         public Skill[] skills;
 
 
-        private TileAI agent;
-        private Animator animator;
+        private TileAI _agent;
+        private Animator _animator;
 
         public override Status status
         {
@@ -68,13 +69,13 @@ namespace Model
                 switch (value)
                 {
                     case Status.Idle:
-                        animator.SetTrigger("Idle");
+                        _animator.SetTrigger("Idle");
                         break;
                     case Status.Reacting:
-                        animator.SetTrigger("Work");
+                        _animator.SetTrigger("Work");
                         break;
                     case Status.Stun:
-                        animator.SetTrigger("Stun");
+                        _animator.SetTrigger("Stun");
                         break;
                     default:
                         break;
@@ -94,34 +95,18 @@ namespace Model
 
         private void Start()
         {
-            agent = GetComponent<TileAI>();
-            animator = GetComponent<Animator>();
+            _agent = GetComponent<TileAI>();
+            _animator = GetComponent<Animator>();
             //GetAnimComponents();
         }
 
-        public void SetDestination(Vector2 destiantion)
+        public void SetDestination(Vector2 dest)
         {
             if (status==Status.Idle)
             {
-                agent.SetDestination(destiantion);
+                _agent.SetDestination(dest);
                 //UpdateFace();
             }
-        }
-
-
-        private Tuple<string,string>[] GetStatus()
-        {
-            Tuple<string, string>[] status = new Tuple<string, string>[6]
-            {
-                new Tuple<string, string>("Name:"+Name,"Name"),
-                new Tuple<string, string>("Race:Human","The Race"),
-                new Tuple<string, string>("Bielf:Iron","The Blief"),
-                new Tuple<string, string>("HP:"+combatAttr.curHp.ToString()+"/"+combatAttr.maxHp.ToString(),"Health Point,Drop to 0 and character dies"),
-                new Tuple<string, string>("SP:"+combatAttr.curSp.ToString()+"/"+combatAttr.maxSp.ToString(),"Sprit Point,Drop to 0 and charater faint out"),
-                new Tuple<string, string>("ATK:"+combatAttr.minAtk.ToString()+"~"+combatAttr.maxAtk.ToString(),"Attack"),
-            };
-
-            return status;
         }
 
         /*
@@ -187,10 +172,10 @@ namespace Model
             StartCoroutine(Move2(target, index));
         }
 
-        protected IEnumerator Move2(Entity target, int index)
+        private IEnumerator Move2(Entity target, int index)
         {
             SetDestination(target.transform.position);
-            yield return new WaitUntil(()=> { return agent.hasReached; });
+            yield return new WaitUntil(()=> _agent.hasReached);
             target.GetReactions(this)[index](this);
         }
 
@@ -206,27 +191,11 @@ namespace Model
         {
             if (Math.Abs( velocity.x) > Math. Abs(velocity.y))
             {
-                if (velocity.x>0)
-                {
-                    eyes.SetCategoryAndLabel("eyes_right", "default");
-                }
-                else
-                {
-                    eyes.SetCategoryAndLabel("eyes_left", "default");
-                }
+                eyes.SetCategoryAndLabel(velocity.x > 0 ? "eyes_right" : "eyes_left", "default");
             }
             else
             {
-                if (velocity.y < 0)
-                {
-                    eyes.SetCategoryAndLabel("eyes_front", "default");
-                }
-                else
-                {
-                    eyes.SetCategoryAndLabel("eyes_back", "default");
-
-                }
-
+                eyes.SetCategoryAndLabel(velocity.y < 0 ? "eyes_front" : "eyes_back", "default");
             }
         }
 

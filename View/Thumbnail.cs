@@ -20,7 +20,7 @@ namespace View
             hpSlider = GetComponentInChildren<Slider>();
         }
 
-        public void UpdateUI()
+        private void UpdateUI()
         {
             hpSlider.value = (float)animal.combatAttr.curHp / animal.combatAttr.maxHp;
         }

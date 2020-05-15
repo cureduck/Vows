@@ -8,18 +8,18 @@ namespace View
     public class AnimalIcon:Icon<Animal>
     {
         public GameObject go;
-        Animal animal;
-        TMP_Text tMP;
+        private Animal _animal;
+        [SerializeField] private TMP_Text nameInput;
 
         protected override void UpdateUI()
         {
-            tMP.text = animal.Name;
+            nameInput.text = _animal.Name;
         }
 
-        void Awake()
+        private void Awake()
         {
-            animal = go.GetComponent<Animal>();
-            tMP = GetComponent<TMP_Text>();
+            _animal = go.GetComponent<Animal>();
+            nameInput = GetComponent<TMP_Text>();
             UpdateUI();
         }
 

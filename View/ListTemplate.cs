@@ -8,24 +8,29 @@ namespace View
 
         public virtual T1[] components { get; set; }
         public T1Icon template;
-        [SerializeField] protected Transform ChildSection;
+        [SerializeField] protected Transform childSection;
 
 
         protected override void UpdateUI()
         {
-            foreach (Transform child in ChildSection)
+            foreach (Transform child in childSection)
             {
                 Destroy(child.gameObject);
             }
             foreach (var item in components)
             {
-                Instantiate(template, parent: ChildSection).value=item;
+                Instantiate(template, parent: childSection).value=item;
             }
         }
 
-        public virtual void AddNewTemplate()
+        protected virtual T1Icon AddNewTemplate()
         {
-            Instantiate(template, parent: ChildSection);
+            return Instantiate(template, parent: childSection);
+        }
+
+        public virtual void AddNewItem()
+        {
+            AddNewTemplate();
         }
     }
 }

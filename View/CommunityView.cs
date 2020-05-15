@@ -17,24 +17,23 @@ namespace View
         {
             nameInput = GetComponentInChildren<TMP_InputField>();
 
-            if (value != null)
-            {
-                UpdateUI();
-            }
+            UpdateUI();
         }
 
-        public override void AddNewTemplate()
+        public override void AddNewItem()
         {
-            template.value.rank = ChildSection.childCount;
-            base.AddNewTemplate();
+            var t= AddNewTemplate();
+            t.status = Community.Status.Building;
+            
         }
+
 
         public void CreateCommunity()
         {
-            Class[] classes = new Class[ChildSection.childCount];
-            int i = 0;
+            var classes = new Class[childSection.childCount];
+            var i = 0;
 
-            foreach (Transform child in ChildSection)
+            foreach (Transform child in childSection)
             {
                 classes[i]= child.gameObject.GetComponent<ClassView>().value;
                 i++;
@@ -42,6 +41,7 @@ namespace View
 
             value = new Community(classes);
             value.name = nameInput.text;
+            value.status = Community.Status.Completed;
             CommunityManager.Instance.AddNew(value);
         }
 
@@ -53,7 +53,17 @@ namespace View
 
         protected override void UpdateUI()
         {
+            template.status = value.status;
             base.UpdateUI();
+            if (value.status==Community.Status.Building)
+            {
+                nameInput.interactable = true;
+            }
+            else
+            {
+                nameInput.interactable = false;
+            }
+
         }
     }
 
@@ -65,11 +75,7 @@ namespace View
         {
             DrawDefaultInspector();
 
-            CommunityView a = (CommunityView)target;
-            if (GUILayout.Button("Add New Class"))
-            {
-                a.AddNewTemplate();
-            }
+            var a = (CommunityView)target;
 
             if (GUILayout.Button("Build New Community"))
             {

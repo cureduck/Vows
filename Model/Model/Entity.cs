@@ -22,7 +22,7 @@ namespace Model
 
         [SerializeField]
         protected Coroutine realTask;
-        private Entity trader;
+        private Entity _trader;
 
         private void Start()
         {
@@ -36,24 +36,20 @@ namespace Model
         public enum Status { Idle, Reacting, Stun}
         [SerializeField] private Status _status = Status.Idle;
         public virtual Status status { get => _status; set => _status = value; }
-
-        public virtual string Info {get=>"test"; }
-
+        
         public virtual void InterruptReact()
         {
-            if (realTask != null)
-            {
-                StopCoroutine(realTask);
-                trader.InterruptHandler();
-                InterruptHandler();
-            }
+            if (realTask == null) return;
+            StopCoroutine(realTask);
+            _trader.InterruptHandler();
+            InterruptHandler();
         }
 
         private void ReactEndHandler()
         {
             ReactInturrpted?.Invoke(this);
             realTask = null;
-            trader = null;
+            _trader = null;
             if (status==Status.Reacting)
             {
                 status = Status.Idle;
@@ -67,20 +63,17 @@ namespace Model
 
         protected void InvokeReact(IEnumerator ie,Entity user)
         {
-            if ((status == Status.Idle) && (user.status == Status.Idle))
-            {
-                var coro = user.StartCoroutine(ie);
-                user.OnReactStart(coro, this);
-                this.OnReactStart(coro, user);
-
-            }
+            if ((status != Status.Idle) || (user.status != Status.Idle)) return;
+            var coro = user.StartCoroutine(ie);
+            user.OnReactStart(coro, this);
+            this.OnReactStart(coro, user);
         }
 
         private void OnReactStart(Coroutine coro, Entity target)
         {
             ReactStarted?.Invoke(this);
             realTask = coro;
-            this.trader = target;
+            this._trader = target;
             status = Status.Reacting;
         }
 

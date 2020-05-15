@@ -8,13 +8,13 @@ namespace Manager
 {
     public class PlayerReactHelper : MonoBehaviour
     {
-        private Entity entity;
+        private Entity _entity;
         public Behaviour halo;
         public Entity player;
 
-        void Start()
+        private void Start()
         {
-            entity = GetComponent<Entity>();
+            _entity = GetComponent<Entity>();
             player = GameManager.Instance.player;
         }
 
@@ -30,16 +30,9 @@ namespace Manager
 
         private void OnMouseUp()
         {
-            if (entity.GetReactions(player).Length==1)
-            {
-                if (player is Animal a) { a.Move2React(entity); }
-                //entity.actions[0](player);
-            }
-        }
-
-        void Update()
-        {
-
+            if (_entity.GetReactions(player).Length != 1) return;
+            if (player is Animal a) { a.Move2React(_entity); }
+            //entity.actions[0](player);
         }
     }
 }
