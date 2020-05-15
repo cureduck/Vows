@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace Manager
 {
-    public class CommunityManager:Singleton<CommunityManager>
+    public sealed class CommunityManager:Singleton<CommunityManager>
     {
-        public Community[] communities => _communities.ToArray();
-        public LinkedList<Community> _communities;
+        public Community[] communityList => communities.ToArray();
+        public LinkedList<Community> communities;
 
 
 
@@ -18,16 +18,16 @@ namespace Manager
 
         private void Awake()
         {
-            _communities =new LinkedList<Community>();
+            communities =new LinkedList<Community>();
         }
 
         public void AddNew(Community community)
         {
-            _communities.AddLast(community);
+            communities.AddLast(community);
             CommunityChanged?.Invoke();
         }
 
-        protected virtual void OnCommunityChanged()
+        private void OnCommunityChanged()
         {
             CommunityChanged?.Invoke();
         }
@@ -44,7 +44,7 @@ namespace Manager
 
             if (GUILayout.Button("Log"))
             {
-                Debug.Log(a.communities);
+                Debug.Log(a.communityList);
             }
         }
     }

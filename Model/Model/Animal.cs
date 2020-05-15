@@ -11,7 +11,7 @@ using UnityEditor;
 namespace Model
 {
 
-    [RequireComponent(typeof(TileAI),typeof(CapsuleCollider2D),typeof(Rigidbody2D))]
+    [RequireComponent(typeof(TileAI),typeof(CapsuleCollider2D),typeof(Rigidbody2D)),Serializable]
     public partial class Animal : Entity
     {
         #region property

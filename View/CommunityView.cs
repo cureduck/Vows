@@ -67,7 +67,7 @@ namespace View
         }
     }
 
-
+    
     [CustomEditor(typeof(CommunityView))]
     public class AnimalEditor : Editor
     {

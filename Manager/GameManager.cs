@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Manager
 {
-    public class GameManager : Singleton<GameManager>
+    public sealed class GameManager : Singleton<GameManager>
     {
         public Animal player { get; private set; }
 

@@ -11,14 +11,18 @@ namespace View
         public CommunityView communityView;
         [SerializeField] private TMP_Text nameText;
 
-        void Awake()
+        private void Awake()
         {
-            //name_text = GetComponentInChildren<TMP_Text>();
+            nameText = GetComponentInChildren<TMP_Text>();
+        }
+
+        private void Start()
+        {
+            nameText.text = value.name;
         }
 
         protected override void UpdateUI()
         {
-            Debug.Log(value);
             nameText.text = value.name;
         }
 

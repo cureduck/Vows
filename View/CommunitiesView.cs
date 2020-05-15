@@ -12,7 +12,7 @@ namespace View
 
         protected override Community[] components
         {
-            get => CommunityManager.Instance.communities;
+            get => CommunityManager.Instance.communityList;
             set => base.components = value;
         }
 
