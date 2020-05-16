@@ -41,29 +41,45 @@ namespace View
         public void UpdateValue()
         {
             value.name = className.text;
-            value.capacity = new RangeInt(int.Parse(minCap.text), int.Parse(maxCap.text));
+            var r = new RangeInt(int.Parse(minCap.text), int.Parse(maxCap.text) - int.Parse(minCap.text));
+            value.capacity = r;
         }
 
-        public void CheckLegal()
+        public void CheckLegal(bool left)
         {
-            if (int.TryParse(minCap.text, out var t))
+            if (left)
             {
-                value.capacity.start = t;
+                if (int.TryParse(minCap.text, out var t))
+                {
+                    if (value.capacity.end<t)
+                    {
+                        value.capacity.length = 0;
+                        maxCap.text = t.ToString();
+                    }
+                    value.capacity.start = t;
+                }
+                else
+                {
+                    minCap.text = value.capacity.start.ToString();
+                }
             }
             else
             {
-                minCap.text = value.capacity.start.ToString();
+                int t;
+                if (int.TryParse(maxCap.text, out t))
+                {
+                    if (value.capacity.start>t)
+                    {
+                        value.capacity.start = t;
+                        minCap.text = t.ToString();
+                    }
+                    value.capacity.length = t - value.capacity.start;
+                }
+                else
+                {
+                    maxCap.text = value.capacity.end.ToString();
+                }
             }
-
-            if (int.TryParse(maxCap.text, out t))
-            {
-                value.capacity.length = t - value.capacity.start;
-            }
-            else
-            {
-                maxCap.text = value.capacity.end.ToString();
-            }
-
         }
 
         protected override void UpdateUI()
