@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Model.Buff
 {
@@ -21,6 +22,11 @@ namespace Model.Buff
             base.TakeOff();
         }
 
+        protected override IEnumerable<Action> Effect()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void TakeOn(float timeMult)
         {
             target.ReactCompleted += TakeOff;
@@ -30,9 +36,5 @@ namespace Model.Buff
         }
 
         public override float baseDuration { get; }
-        protected override IEnumerable<Action> Effect()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
