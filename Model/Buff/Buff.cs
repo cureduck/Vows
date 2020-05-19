@@ -1,75 +1,91 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Sirenix.OdinInspector;
+using Unity.Collections;
+using UnityEditor;
+using UnityEngine;
 
-namespace Model
+namespace Model.Buff
 {
-    /// <summary>
-    /// buff的本质是一个协程，或者是数据的暂时状态更改
-    /// 因此要记得
-    /// </summary>
+    [Serializable]
     public abstract class Buff
     {
-        public abstract string name { get; }
-        public abstract string description { get; }
+        [ShowInInspector]
+        public Entity owner { get; set; }
+        [ShowInInspector]
+        public abstract float baseDuration { get; }
+        [ShowInInspector]
+        public float durationMax { get; set; }
+        [ShowInInspector]
+        public float durationLeft { get; private set; }
+        public Sprite icon;
+        [Sirenix.OdinInspector.ReadOnly]
+        public Coroutine handler;
 
-        public abstract void TakeOn(Entity owner);
-
-        /// <summary>
-        /// 将该buff从持有者的buff栏移除
-        /// </summary>
-        /// <param name="owner"></param>
-        public virtual void TakeOff(Entity owner)
+        protected IEnumerator Wrapper(float durationMax, float indent=1f)
         {
+            var effect = Effect();
+            this.durationMax = durationMax;
+            durationLeft = durationMax;
+
+            foreach (Action e in effect)
+            {
+                e.Invoke();
+                durationLeft -= indent;
+                yield return new WaitForSeconds(indent);
+                if(durationLeft<0) yield break;
+            }
+            
+        }
+
+        protected abstract IEnumerable<Action> Effect();
+
+
+
+        public Buff(Entity owner,float timeMult=1)
+        {
+            this.owner = owner;
+            TakeOn(timeMult);
+        }
+        
+        [Button]
+        public virtual void TakeOn(float timeMult)
+        {
+            handler = owner.StartCoroutine(Wrapper(baseDuration*timeMult));
+        }
+
+        [Button]
+        public virtual void TakeOff()
+        {
+            owner.StopCoroutine(handler);
             owner.buffs.Remove(this);
         }
     }
 
-
-
-
-
-
-    public abstract class CoroBuff : Buff
+    public class ConstantHeal:Buff
     {
-        protected IEnumerator coro;
-
-        /// <summary>
-        /// 启动buff协程
-        /// </summary>
-        /// <param name="user"></param>
-        public abstract void StartCoro(Entity user);
-
-        /// <summary>
-        /// 将buff结束的动作TakeOff绑定到相应的事件上去,若为固定持续时间的，则
-        /// </summary>
-        /// <param name="user"></param>
-        public abstract void Bind(Entity user);
-
-        public override void TakeOn(Entity user)
+        public ConstantHeal(Entity owner, float timeMult = 1) : base(owner, timeMult)
         {
-            StartCoro(user);
-            Bind(user);
         }
 
-        /// <summary>
-        /// 持续施法类buff样本 
-        /// </summary>
-        /// <param name="owner"></param>
-        public override void TakeOff(Entity owner)
+        private const float BaseDuration = 10;
+        public override float baseDuration => BaseDuration;
+
+        protected override IEnumerable<Action> Effect()
         {
-            base.TakeOff(owner);
-            owner.StopCoroutine(coro);
+            while (true)
+            {
+                yield return () =>
+                {
+                    if (owner is Animal a)
+                    {
+                        a.HealHp(1);
+                        Debug.Log(1);
+                    }
+                };
+            }
         }
     }
-
-    public abstract class Aura
-    {
-        public abstract string name { get; }
-        public abstract string description { get; }
-
-    }
+    
 }

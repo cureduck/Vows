@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Manager
 {
-    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    public class Singleton<T> : SerializedMonoBehaviour where T : MonoBehaviour
     {
         private static T _instance;
 

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sirenix.OdinInspector;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Experimental.U2D.Animation;
 using UnityEditor;
@@ -15,8 +17,9 @@ namespace Model
     public partial class Animal : Entity
     {
         #region property
-
-        public string name;
+        
+        [ShowInInspector]
+        public string name { get; set; }
         private Vector2 velocity => _agent.velocity;
         private SpriteResolver body,eyes,head;
         #endregion
@@ -47,7 +50,7 @@ namespace Model
             public int Str;
             public int Int;
         }
-
+        
         public CombatAttr combatAttr;
         public BaseAttr baseAttr;
         public SkillExp skillExp;
@@ -56,32 +59,11 @@ namespace Model
         public Profession prof;
         public Skill[] skills;
 
-
         private TileAI _agent;
         private Animator _animator;
-
-        public override Status status
-        {
-            get => base.status;
-            set
-            {
-                base.status = value;
-                switch (value)
-                {
-                    case Status.Idle:
-                        _animator.SetTrigger("Idle");
-                        break;
-                    case Status.Reacting:
-                        _animator.SetTrigger("Work");
-                        break;
-                    case Status.Stun:
-                        _animator.SetTrigger("Stun");
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+        
+        [ShowInInspector]
+        public override Status status { get; set; }
 
         #endregion
 
@@ -159,7 +141,8 @@ namespace Model
             combatAttr.curSp = Math.Max(0, combatAttr.curSp - point);
             StatusUpdated?.Invoke();
         }
-
+        
+        [Button]
         internal void Die()
         {
             Debug.Log("去世");

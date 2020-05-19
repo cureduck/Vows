@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
+/*
 namespace Editors
 {
     [CustomPropertyDrawer(typeof(Item))]
@@ -40,3 +41,5 @@ namespace Editors
     }
     
 }
+
+*/

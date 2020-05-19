@@ -3,8 +3,10 @@ using UnityEditor;
 using UnityEngine;
 using System.Reflection;
 
+/*
 namespace Editors
 {
+    
     [CustomPropertyDrawer(typeof(Class))]
     public class ClassDrawer:PropertyDrawer
     {
@@ -39,3 +41,4 @@ namespace Editors
         }
     }
 }
+*/

@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Model
 {
-    public abstract class Entity:MonoBehaviour
+    public abstract class Entity:SerializedMonoBehaviour
     {
         public abstract Action<Entity>[] GetReactions(Entity sponser);
-
-        public LinkedList<Buff> buffs;
-
+        
+        
         public event Action<Entity> ReactStarted;
         public event Action<Entity> ReactCompleted;
         public event Action<Entity> ReactInturrpted;
@@ -23,6 +23,8 @@ namespace Model
         [SerializeField]
         protected Coroutine realTask;
         private Entity _trader;
+        public List<Buff.Buff> buffs;
+
 
         private void Start()
         {
@@ -45,8 +47,9 @@ namespace Model
             InterruptHandler();
         }
 
-        private void ReactEndHandler()
+        private void CastEndHandler()
         {
+
             ReactInturrpted?.Invoke(this);
             realTask = null;
             _trader = null;
@@ -58,7 +61,7 @@ namespace Model
 
         private void InterruptHandler()
         {
-            ReactEndHandler();
+            CastEndHandler();
         }
 
         protected void InvokeReact(IEnumerator ie,Entity user)
@@ -80,7 +83,7 @@ namespace Model
 
         protected internal virtual void OnReactCompleted(Entity target)
         {
-            ReactEndHandler();
+            CastEndHandler();
             ReactCompleted?.Invoke(this);
         }
     }

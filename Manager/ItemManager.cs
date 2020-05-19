@@ -18,6 +18,9 @@ namespace Manager
         [SerializeField]
         public Item[] items;
 
+        public Dictionary<Item, int> price;
+        
+        
         private void Start()
         {
             RegisterItems();
