@@ -12,80 +12,38 @@ namespace Model.Buff
     public abstract class Buff
     {
         [ShowInInspector]
-        public Entity owner { get; set; }
-        [ShowInInspector]
-        public abstract float baseDuration { get; }
-        [ShowInInspector]
-        public float durationMax { get; set; }
-        [ShowInInspector]
-        public float durationLeft { get; private set; }
-        public Sprite icon;
-        [Sirenix.OdinInspector.ReadOnly]
-        public Coroutine handler;
-
-        protected IEnumerator Wrapper(float durationMax, float indent=1f)
+        protected Entity Owner;
+        protected virtual void OnStart(){}
+        protected virtual void OnInterrupt()
         {
-            var effect = Effect();
-            this.durationMax = durationMax;
-            durationLeft = durationMax;
+            TakeOff();
+        }
 
-            foreach (Action e in effect)
-            {
-                e.Invoke();
-                durationLeft -= indent;
-                yield return new WaitForSeconds(indent);
-                if(durationLeft<0) yield break;
-            }
+        protected virtual void OnComplete()
+        {
+            TakeOff();
+        }
+
+        public Buff(Entity owner)
+        {
+            Owner = owner;
+            TakeOn();
+        }
+
+        protected virtual void TakeOn()
+        {
             
         }
 
-        protected abstract IEnumerable<Action> Effect();
-
-
-
-        public Buff(Entity owner,float timeMult=1)
+        protected virtual void TakeOff()
         {
-            this.owner = owner;
-            TakeOn(timeMult);
-        }
-        
-        [Button]
-        public virtual void TakeOn(float timeMult)
-        {
-            handler = owner.StartCoroutine(Wrapper(baseDuration*timeMult));
+            Owner.buffs.Remove(this);
         }
 
         [Button]
-        public virtual void TakeOff()
+        public void Interrupt()
         {
-            owner.StopCoroutine(handler);
-            owner.buffs.Remove(this);
+            OnInterrupt();
         }
     }
-
-    public class ConstantHeal:Buff
-    {
-        public ConstantHeal(Entity owner, float timeMult = 1) : base(owner, timeMult)
-        {
-        }
-
-        private const float BaseDuration = 10;
-        public override float baseDuration => BaseDuration;
-
-        protected override IEnumerable<Action> Effect()
-        {
-            while (true)
-            {
-                yield return () =>
-                {
-                    if (owner is Animal a)
-                    {
-                        a.HealHp(1);
-                        Debug.Log(1);
-                    }
-                };
-            }
-        }
-    }
-    
 }

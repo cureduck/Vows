@@ -46,13 +46,11 @@ namespace Model
                 yield return null;
             }
             CompleteBuild();
-            builder.OnReactCompleted(builder);
-            this. OnReactCompleted(this);
+
         }
 
         protected void Build(Entity builder)
         {
-            InvokeReact(BuildPro(builder),builder);
         }
 
         private void CompleteBuild()

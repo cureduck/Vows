@@ -1,40 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using Sirenix.OdinInspector;
 
 namespace Model.Buff
 {
-    public class ReactBuff:Buff
+    public abstract class ReactBuff:ExclusiveBuff
     {
         [ShowInInspector]
-        private Entity target;
-        
-        public ReactBuff(Entity owner,Entity target, float timeMult = 1) : base(owner, timeMult)
+        protected Entity Target;
+        protected ReactBuff(Entity owner,Entity target, float timeMult = 1) : base(owner, timeMult)
         {
-            this.target = target;
+            this.Target = target;
         }
 
-        public void TakeOff(Entity target)
+        protected override void OnStart()
         {
-            target.ReactCompleted -= TakeOff;
-            target.ReactInturrpted -= TakeOff;
-            base.TakeOff();
+            Target.ReactCompleted += OnComplete;
+            Target.ReactInturrpted += OnInterrupt;
+            base.OnStart();
         }
 
-        protected override IEnumerable<Action> Effect()
+
+        protected virtual void OnComplete(Entity e)
         {
-            throw new NotImplementedException();
+            TakeOff(e);
         }
 
-        public override void TakeOn(float timeMult)
+        protected virtual void OnInterrupt(Entity e)
         {
-            target.ReactCompleted += TakeOff;
-            target.ReactInturrpted += TakeOff;
-            
-            base.TakeOn(timeMult);
+            TakeOff(e);
         }
 
-        public override float baseDuration { get; }
+        protected override void TakeOff(Entity e)
+        {
+            Target.ReactCompleted -= OnComplete;
+            Target.ReactInturrpted -= OnInterrupt;
+            base.TakeOff(e);
+        }
     }
 }

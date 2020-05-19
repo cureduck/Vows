@@ -23,13 +23,11 @@ namespace Model
                 yield return new WaitForSeconds(1f);
             }
 
-            this.OnReactCompleted(user);
-            user.OnReactCompleted(this);
+
         }
 
         public void Sleep(Entity user)
         {
-            InvokeReact(sleep(user), user);
         }
     }
 }
