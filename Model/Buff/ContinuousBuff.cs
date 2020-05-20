@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.ComponentModel;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,22 +9,22 @@ namespace Model.Buff
     public abstract class ContinuousBuff : Buff
     {
         public abstract float baseDuration { get; }
-        [ShowInInspector,HorizontalGroup("Group1",LabelWidth = 40),LabelText("Max"),Sirenix.OdinInspector.ReadOnly]
-        public float MaxDuration { get; private set; }
+        [ShowInInspector,HorizontalGroup("Group1",LabelWidth = 40),LabelText("Max"),ReadOnly]
+        public float MaxDuration { get; protected set; }
         [ShowInInspector,HorizontalGroup("Group1",LabelWidth = 40),LabelText("Left")]
-        public float durationLeft { get; private set; }
-        public float Progress => durationLeft / MaxDuration;
+        public float durationLeft { get; protected set; }
+        public float Progress =>1- durationLeft / MaxDuration;
 
         public Sprite icon;
-        [Sirenix.OdinInspector.ReadOnly] public Coroutine handler;
+        [ReadOnly] public Coroutine handler;
 
-        protected IEnumerator Wrapper(float durationMax, float indent = 1f)
+        protected virtual IEnumerator Wrapper(float durationMax, float indent = 1f)
         {
             OnStart();
-            this.MaxDuration = durationMax;
+            MaxDuration = durationMax;
             durationLeft = durationMax;
 
-            while (durationLeft > 0)
+            while (durationLeft >= 0)
             {
                 Effect();
                 durationLeft -= indent;
@@ -43,7 +42,7 @@ namespace Model.Buff
         }
 
         [Button]
-        protected void TakeOn(float timeMult)
+        protected virtual void TakeOn(float timeMult)
         {
             base.TakeOn();
             handler = Owner.StartCoroutine(Wrapper(baseDuration * timeMult));

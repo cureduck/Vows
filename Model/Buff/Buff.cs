@@ -41,7 +41,7 @@ namespace Model.Buff
         }
 
         [Button]
-        public void Interrupt()
+        public virtual void Interrupt()
         {
             OnInterrupt();
         }

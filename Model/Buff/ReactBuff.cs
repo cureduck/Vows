@@ -1,4 +1,8 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Model.Buff
 {
@@ -10,30 +14,76 @@ namespace Model.Buff
         {
             this.Target = target;
         }
-
-        protected override void OnStart()
+        
+        protected override IEnumerator Wrapper(float durationMax, float indent = 1f)
         {
-            Target.ReactCompleted += OnComplete;
-            Target.ReactInturrpted += OnInterrupt;
-            base.OnStart();
+            OnStart(Owner);
+            this.MaxDuration = durationMax;
+            durationLeft = durationMax;
+
+            while (durationLeft >= 0)
+            {
+                Effect();
+                durationLeft -= indent;
+                yield return new WaitForSeconds(indent);
+            }
+            OnComplete(Owner);
         }
 
+        protected override void Bind()
+        {
+            Target.CastCompleted += OnComplete;
+            Target.CastInterrupted += OnInterrupt;
+            Owner.CastInterrupted += OnInterrupt;
+        }
+
+        protected override void Unbind()
+        {
+            Target.CastCompleted -= OnComplete;
+            Target.CastInterrupted -= OnInterrupt;
+            Owner.CastInterrupted -= OnInterrupt;
+        }
+
+        protected virtual void OnStart(Entity e)
+        {
+        }
 
         protected virtual void OnComplete(Entity e)
         {
-            TakeOff(e);
+            Debug.Log(Owner.name+"Complete");
+            TakeOff();
+            Owner.BroadcastComplete();
         }
 
         protected virtual void OnInterrupt(Entity e)
         {
-            TakeOff(e);
+            Debug.Log(Owner.name+"Interrupt");
+            TakeOff();
+        }
+        
+
+        public override void Interrupt()
+        {
+            OnInterrupt(Owner);
         }
 
-        protected override void TakeOff(Entity e)
+        [Obsolete("use OnStart(Entity) instead",true)]
+        protected override void OnStart()
         {
-            Target.ReactCompleted -= OnComplete;
-            Target.ReactInturrpted -= OnInterrupt;
-            base.TakeOff(e);
+            base.OnStart();
+        }
+
+
+        [Obsolete("use OnComplete(Entity) instead",true)]
+        protected override void OnComplete()
+        {
+            base.OnComplete();
+        }
+
+        [Obsolete("use OnInterrupt(Entity) instead",true)]
+        protected override void OnInterrupt()
+        {
+            base.OnInterrupt();
         }
     }
 }

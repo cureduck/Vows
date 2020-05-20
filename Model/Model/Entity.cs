@@ -15,15 +15,12 @@ namespace Model
         public abstract Action<Entity>[] GetReactions(Entity sponser);
         
         
-        public event Action<Entity> ReactStarted;
-        public event Action<Entity> ReactCompleted;
-        public event Action<Entity> ReactInturrpted;
+        public event Action<Entity> CastStarted;
+        public event Action<Entity> CastCompleted;
+        public event Action<Entity> CastInterrupted;
         public event Action AttrUpdated;
         public event Action<float> ProgressUpdated;
 
-        [SerializeField]
-        protected Coroutine realTask;
-        private Entity _trader;
         public List<Buff.Buff> buffs;
 
         public ExclusiveBuff task;
@@ -44,13 +41,17 @@ namespace Model
         [Button]
         public virtual void InterruptReact()
         {
-            ReactInturrpted?.Invoke(this);
+            CastInterrupted?.Invoke(this);
         }
 
         internal void BroadcastComplete()
         {
-            ReactCompleted?.Invoke(this);
+            CastCompleted?.Invoke(this);
         }
-        
+
+        internal void BroadCastProgress(float progress)
+        {
+            ProgressUpdated?.Invoke(progress);
+        }
     }
 }

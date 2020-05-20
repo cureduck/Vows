@@ -13,6 +13,7 @@
             {
                 a.HealHp(1);
             }
+            base.Effect();
         }
     }
 }

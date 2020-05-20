@@ -25,6 +25,7 @@ namespace View
 
             UpdateView();
             _animal.StatusUpdated += UpdateView;
+            _animal.ProgressUpdated += UpdateProgress;
         }
 
         private void UpdateView()
@@ -50,6 +51,5 @@ namespace View
                     break;
             }
         }
-
     }
 }

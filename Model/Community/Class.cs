@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEditor;
 
@@ -15,6 +16,7 @@ namespace Model
         public RangeInt capacity;
         public LinkedList<Animal> actors;
 
+        [ShowInInspector]
         public int count=> actors?.Count ?? 0;
 
         public void TakeNew(Animal animal)
