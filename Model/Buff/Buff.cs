@@ -13,12 +13,22 @@ namespace Model.Buff
     {
         [ShowInInspector]
         protected Entity Owner;
+        
+        /// <summary>
+        /// 在开始时调用的方法
+        /// </summary>
         protected virtual void OnStart(){}
+        /// <summary>
+        /// 被打断时调用的方法
+        /// </summary>
         protected virtual void OnInterrupt()
         {
             TakeOff();
         }
-
+        
+        /// <summary>
+        /// 完成时调用的方法
+        /// </summary>
         protected virtual void OnComplete()
         {
             TakeOff();
@@ -27,14 +37,19 @@ namespace Model.Buff
         public Buff(Entity owner)
         {
             Owner = owner;
-            TakeOn();
         }
-
-        protected virtual void TakeOn()
+        
+        /// <summary>
+        /// 启动Buff的方法
+        /// </summary>
+        public virtual void TakeOn()
         {
             
         }
 
+        /// <summary>
+        /// 移除buff的方法，在OnComplete和OnInterrupt中都有调用
+        /// </summary>
         protected virtual void TakeOff()
         {
             Owner.buffs.Remove(this);

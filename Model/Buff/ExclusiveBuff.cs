@@ -17,10 +17,9 @@ namespace Model.Buff
 
         protected override void TakeOn(float timeMult)
         {
-            if (Owner.status!=Entity.Status.Idle) return;
             Owner.status = Entity.Status.Reacting;
-            Bind();
             base.TakeOn(timeMult);
+            Bind();
         }
 
         protected virtual void Bind()
@@ -31,7 +30,6 @@ namespace Model.Buff
         protected virtual void Unbind()
         {
             Owner.CastInterrupted -= OnInterrupt;
-
         }
 
         protected override void TakeOff()

@@ -22,7 +22,8 @@ namespace Model
         public event Action<float> ProgressUpdated;
 
         public List<Buff.Buff> buffs;
-
+        
+        [ShowInInspector]
         public ExclusiveBuff task;
 
         private void Start()
@@ -35,13 +36,14 @@ namespace Model
         }
 
         public enum Status { Idle, Reacting, Stun}
-        [SerializeField] private Status _status = Status.Idle;
-        public virtual Status status { get => _status; set => _status = value; }
+        [ShowInInspector]
+        public Status status { get; set; }
         
         [Button]
         public virtual void InterruptReact()
         {
             CastInterrupted?.Invoke(this);
+            
         }
 
         internal void BroadcastComplete()

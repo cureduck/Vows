@@ -62,9 +62,6 @@ namespace Model
         private TileAI _agent;
         private Animator _animator;
         
-        [ShowInInspector]
-        public override Status status { get; set; }
-
         #endregion
 
         #region events

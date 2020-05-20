@@ -38,14 +38,18 @@ namespace Model.Buff
 
         public ContinuousBuff(Entity owner, float timeMult = 1) : base(owner)
         {
-            TakeOn(timeMult);
         }
 
         [Button]
-        protected virtual void TakeOn(float timeMult)
+        protected virtual void TakeOn(float timeMult=1)
         {
             base.TakeOn();
             handler = Owner.StartCoroutine(Wrapper(baseDuration * timeMult));
+        }
+
+        public override void TakeOn()
+        {
+            TakeOn(1);
         }
 
         protected override void TakeOff()

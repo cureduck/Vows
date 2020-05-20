@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model.Buff;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Model
@@ -12,7 +14,7 @@ namespace Model
     {
         public virtual string StruName { get; }
         public enum State { Building, Done}
-        [SerializeField]private float Progress;
+        [ShowInInspector]private float Progress;
         public float buildTime = 10f;
         private SpriteRenderer[] srs;
         public State state;
@@ -38,21 +40,51 @@ namespace Model
             }
         }
 
-        protected IEnumerator BuildPro(Entity builder)
-        {
-            while (Progress <1f)
-            {
-                Progress += Time.deltaTime / buildTime;
-                yield return null;
-            }
-            CompleteBuild();
-
-        }
-
         protected void Build(Entity builder)
         {
+            this.task=new Building(this, builder);
+            builder.task=new Working(builder,this);
+            
+            this.task.TakeOn();
+            builder.task.TakeOn();
         }
 
+        private class Building:ReactBuff
+        {
+            public Building(Entity owner, Entity target, float timeMult = 1) : base(owner, target, timeMult)
+            {
+            }
+
+            public override float baseDuration =>10f;
+
+            protected override void Effect()
+            {
+                var s = (Owner as Structure);
+                if (s != null) s.Progress += 1 / MaxDuration;
+                base.Effect();
+                if (s.Progress>1)
+                {
+                    OnComplete(Owner);
+                }
+            }
+
+            protected override void OnComplete(Entity e)
+            {
+                var s = (Owner as Structure);
+                s.CompleteBuild();
+                base.OnComplete(e);
+            }
+        }
+        
+        private class Working:ReactBuff
+        {
+            public Working(Entity owner, Entity target, float timeMult = 1) : base(owner, target, timeMult)
+            {
+            }
+
+            public override float baseDuration => 10f;
+        }
+        
         private void CompleteBuild()
         {
             SetAlpha(1f);
