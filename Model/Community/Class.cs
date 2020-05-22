@@ -10,7 +10,7 @@ namespace Model
     public class Class
     {
         public string name;
-        [NonSerialized] private Community _community;
+        [NonSerialized] private Group _group;
         public int rank;
 
         public RangeInt capacity;
@@ -21,7 +21,7 @@ namespace Model
 
         public void TakeNew(Animal animal)
         {
-            animal.Death += _community.Remove;
+            animal.Death += _group.Remove;
             actors.AddLast(animal);
         }
 
@@ -41,7 +41,7 @@ namespace Model
         {
             if (this.rank < rank)
             {
-                return _community.TryAdd(animal, rank);
+                return _group.TryAdd(animal, rank);
             }
             else
             {

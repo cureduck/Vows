@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Model
 {
-    public abstract class Structure:Entity
+    public abstract class Structure:Property
     {
         public virtual string StruName { get; }
         public enum State { Building, Done}
@@ -104,5 +104,6 @@ namespace Model
                     return null;
             }
         }
+        
     }
 }

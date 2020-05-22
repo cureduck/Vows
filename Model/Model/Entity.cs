@@ -56,4 +56,12 @@ namespace Model
             ProgressUpdated?.Invoke(progress);
         }
     }
+
+    public abstract class Property : Entity
+    {
+        public ISubject owner;
+        
+        [ShowInInspector]
+        public int PermissionLevel { get; set; }
+    }
 }

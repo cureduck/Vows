@@ -5,14 +5,14 @@ using Manager;
 
 namespace View
 {
-    internal class CommunitiesView:ListTemplate<Community[],Community,CommunityIcon>
+    internal class CommunitiesView:ListTemplate<Group[],Group,CommunityIcon>
     {
 
         public CommunityView communityView;
 
-        protected override Community[] components
+        protected override Group[] components
         {
-            get => CommunityManager.Instance.communityList;
+            get => GroupManager.Instance.communityList;
             set => base.components = value;
         }
 
@@ -20,14 +20,14 @@ namespace View
         private void Start()
         {
             template.communityView = communityView;
-            CommunityManager.Instance.CommunityChanged += UpdateUI;
+            GroupManager.Instance.GroupChanged += UpdateUI;
             UpdateUI();
         }
 
         public override void AddNewItem()
         {
             var t= AddNewTemplate();
-            t.value = new Community(new Class[1]{new Class() }) {status = Community.Status.Building};
+            t.value = new Group(new Class[1]{new Class() }) {status = Group.Status.Building};
         }
     }
     

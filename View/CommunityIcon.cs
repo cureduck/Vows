@@ -5,7 +5,7 @@ using TMPro;
 
 namespace View
 {
-    class CommunityIcon : Icon<Community>
+    class CommunityIcon : Icon<Group>
     {
 
         public CommunityView communityView;

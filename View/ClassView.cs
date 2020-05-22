@@ -11,24 +11,24 @@ namespace View
     {
 
         [SerializeField] private TMP_InputField className, minCap, maxCap;
-        public Community.Status status;
+        public Group.Status status;
 
         private void Awake()
         {
             switch (status)
             {
-                case Community.Status.Building:
+                case Group.Status.Building:
                     value = new Class {capacity = new RangeInt(1, 0)};
                     className.interactable = true;
                     minCap.interactable = true;
                     maxCap.interactable = true;
                     break;
-                case Community.Status.Completed:
+                case Group.Status.Completed:
                     className.interactable = false;
                     minCap.interactable = false;
                     maxCap.interactable = false;
                     break;
-                case Community.Status.Dissolved:
+                case Group.Status.Dissolved:
                     className.interactable = false;
                     minCap.interactable = false;
                     maxCap.interactable = false;

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Model
 {
     [Serializable]
-    public class Community
+    public class Group:ISubject
     {
         public enum Status
         {
@@ -31,7 +31,7 @@ namespace Model
         public event Action StatusChanged; 
         
 
-        public Community(Class[] classes)
+        public Group(Class[] classes)
         {
             this.classes = classes;
         }

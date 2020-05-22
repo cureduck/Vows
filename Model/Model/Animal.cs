@@ -14,7 +14,7 @@ namespace Model
 {
 
     [RequireComponent(typeof(TileAI),typeof(CapsuleCollider2D),typeof(Rigidbody2D)),Serializable]
-    public partial class Animal : Entity
+    public partial class Animal : Entity, ISubject
     {
         #region property
         
@@ -54,14 +54,12 @@ namespace Model
         public CombatAttr combatAttr;
         public BaseAttr baseAttr;
         public SkillExp skillExp;
-
-        public Race race;
-        public Profession prof;
-        public Skill[] skills;
-
+        
+        
         private TileAI _agent;
         private Animator _animator;
-        
+
+        public List<Item> backpack;
         #endregion
 
         #region events

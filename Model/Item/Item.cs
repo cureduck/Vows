@@ -1,25 +1,21 @@
 ﻿using System;
 using Sirenix.OdinInspector;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Model
 {
     [Serializable]
-    public class Item
+    public abstract class Item
     {
         public string name;
-        public int amount = 1;
         [ShowInInspector]
         public virtual string className { get; }
         public virtual string itemDesc { get; }
         // 反射调用字段，不能更改命名
+        [ShowInInspector,Sirenix.OdinInspector.ReadOnly]
         public virtual Sprite itemSprite { get; internal set; }
         public virtual string spriteName { get; internal set; } = null;
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
 
     
@@ -29,6 +25,7 @@ namespace Model
 
         public virtual int MaxStack { get; } = 10;
         public int Qty;
+        public abstract void OnUse();
     }
 }
 

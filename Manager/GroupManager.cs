@@ -7,40 +7,39 @@ using System.Linq;
 
 namespace Manager
 {
-    public sealed class CommunityManager:Singleton<CommunityManager>
+    public sealed class GroupManager:Singleton<GroupManager>
     {
-        public Community[] communityList => communities.ToArray();
-        public LinkedList<Community> communities;
-
-
-
-        public event Action CommunityChanged;
+        public Group[] communityList => groups.ToArray();
+        public LinkedList<Group> groups;
+        
+        
+        public event Action GroupChanged;
 
         private void Awake()
         {
-            communities =new LinkedList<Community>();
+            groups =new LinkedList<Group>();
         }
 
-        public void AddNew(Community community)
+        public void AddNew(Group @group)
         {
-            communities.AddLast(community);
-            CommunityChanged?.Invoke();
+            groups.AddLast(@group);
+            GroupChanged?.Invoke();
         }
 
         private void OnCommunityChanged()
         {
-            CommunityChanged?.Invoke();
+            GroupChanged?.Invoke();
         }
     }
 
-    [CustomEditor(typeof(CommunityManager))]
+    [CustomEditor(typeof(GroupManager))]
     public class CommunityManagerEidtor : Editor
     {
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
 
-            CommunityManager a = (CommunityManager)target;
+            GroupManager a = (GroupManager)target;
 
             if (GUILayout.Button("Log"))
             {
