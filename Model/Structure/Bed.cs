@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Model
 {
-    class Bed : Structure
+    class Bed : Stru
     {
         public override string StruName => "Bed";
 

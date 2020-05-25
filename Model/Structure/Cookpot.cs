@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Model
 {
-    class Cookpot : Structure
+    class Cookpot : Stru
     {
         protected override Action<Entity>[] DisiredReactions => throw new NotImplementedException();
 

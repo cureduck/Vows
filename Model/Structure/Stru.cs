@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Model
 {
-    public abstract class Structure:Property
+    public abstract class Stru:Property
     {
         public virtual string StruName { get; }
         public enum State { Building, Done}
@@ -59,7 +59,7 @@ namespace Model
 
             protected override void Effect()
             {
-                var s = (Owner as Structure);
+                var s = (Owner as Stru);
                 if (s != null) s.Progress += 1 / MaxDuration;
                 base.Effect();
                 if (s.Progress>1)
@@ -70,7 +70,7 @@ namespace Model
 
             protected override void OnComplete(Entity e)
             {
-                var s = (Owner as Structure);
+                var s = (Owner as Stru);
                 s.CompleteBuild();
                 base.OnComplete(e);
             }

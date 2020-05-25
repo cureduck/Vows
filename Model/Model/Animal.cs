@@ -157,7 +157,7 @@ namespace Model
             target.GetReactions(this)[index](this);
         }
 
-        public void BuildStructure(Structure origin, Vector2 pos)
+        public void BuildStructure(Stru origin, Vector2 pos)
         {
             Instantiate(original: origin, position: pos, rotation: Quaternion.identity);
         }

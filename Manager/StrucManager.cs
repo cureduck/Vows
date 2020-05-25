@@ -11,7 +11,7 @@ namespace Manager
         public Dictionary<string, GameObject> struMap;
         public GameObject[] items;
 
-        private void Start()
+        private void Awake()
         {
             RegisterItems();
         }
@@ -19,7 +19,7 @@ namespace Manager
         private void RegisterItems()
         {
             var resources = Resources.LoadAll<GameObject>("Prefabs/Structures");
-            var types = Utils.GetSubClasses(typeof(Structure));
+            var types = Utils.GetSubClasses(typeof(Stru));
             struMap = new Dictionary<string, GameObject>();
             
             items = new GameObject[types.Length];

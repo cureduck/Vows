@@ -8,7 +8,7 @@ using Manager;
 namespace View
 {
 
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : Singleton<PlayerController>
     {
         public Animal body;
         //InfoView view;
@@ -41,7 +41,7 @@ namespace View
                         break;
                 }
             } }
-        public Structure origin;
+        public Stru origin;
 
         public GameObject helper;
 
@@ -137,14 +137,19 @@ namespace View
         }
 
 
-        public void Build(Structure structure,Vector2 pos)
+        public void Build(Stru stru,Vector2 pos)
         {
-            body.BuildStructure(structure, FindNearestIntPoint(pos));
+            body.BuildStructure(stru, FindNearestIntPoint(pos));
         }
 
         public void FindStru(string name)
         {
-            origin= StrucManager.Instance.struMap[name].GetComponent<Structure>();
+            origin= StrucManager.Instance.struMap[name].GetComponent<Stru>();
+        }
+
+        public void FindStru(GameObject go)
+        {
+            origin = go.GetComponent<Stru>();
         }
     }
 }
