@@ -10,7 +10,7 @@ namespace Manager
     {
         private Entity _entity;
         public Behaviour halo;
-        public Entity player;
+        public Animal player;
 
         private void Start()
         {

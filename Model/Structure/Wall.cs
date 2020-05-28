@@ -4,6 +4,6 @@ namespace Model.Structure
 {
     public class Wall:Stru
     {
-        protected override Action<Entity>[] DisiredReactions { get; }
+        protected override Action<Animal>[] DisiredReactions { get; }
     }
 }

@@ -12,7 +12,7 @@ namespace Model
 {
     public abstract class Entity:SerializedMonoBehaviour
     {
-        public abstract Action<Entity>[] GetReactions(Entity sponser);
+        public abstract Action<Animal>[] GetReactions(Animal sponser);
         
         
         public event Action<Entity> CastStarted;

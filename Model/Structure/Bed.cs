@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Model.Buff;
 
 namespace Model
 {
@@ -9,25 +10,39 @@ namespace Model
     {
         public override string StruName => "Bed";
 
-        protected override Action<Entity>[] DisiredReactions => new Action<Entity>[1] { Sleep };
+        protected override Action<Animal>[] DisiredReactions => new Action<Animal>[1] { Sleep };
 
-        protected  IEnumerator sleep(Entity user)
+        private class SleepBuff:ReactBuff
         {
-            for (int i = 0; i < 10; i++)
+            public SleepBuff(Entity owner, Entity target, float timeMult = 1) : base(owner, target, timeMult)
             {
-                if (user is Animal a)
+            }
+
+            protected override void Effect()
+            {
+                if (Owner is Animal a)
                 {
                     a.HealHp(3);
                     a.HealSp(1);
                 }
-                yield return new WaitForSeconds(1f);
+                base.Effect();
             }
 
-
+            public override float baseDuration { get; } = 10f;
         }
+
+
+        
+        
 
         public void Sleep(Entity user)
         {
+            var t= new SleepBuff(user, this, 1);
+            user.task = t;
+            t.TakeOn();
+            var t2=new EmptyBuff(this,user,1);
+            this.task = t2;
+            t2.TakeOn();
         }
     }
 }

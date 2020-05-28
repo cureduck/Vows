@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Model
 {
     [Serializable]
-    public abstract class Item
+    public abstract class Item:ICloneable
     {
         public string name;
         [ShowInInspector]
@@ -16,6 +16,10 @@ namespace Model
         [ShowInInspector,Sirenix.OdinInspector.ReadOnly]
         public virtual Sprite itemSprite { get; internal set; }
         public virtual string spriteName { get; internal set; } = null;
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     
@@ -27,8 +31,9 @@ namespace Model
             Qty -= 1;
         }
 
+        [ShowInInspector]
         public virtual int MaxStack { get; } = 10;
-        public int Qty;
+        public int Qty=1;
     }
 }
 

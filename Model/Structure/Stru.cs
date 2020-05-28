@@ -18,7 +18,7 @@ namespace Model
         public float buildTime = 10f;
         private SpriteRenderer[] srs;
         public State state;
-        protected abstract Action<Entity>[] DisiredReactions { get; }
+        protected abstract Action<Animal>[] DisiredReactions { get; }
 
 
         public void Awake()
@@ -93,12 +93,12 @@ namespace Model
 
 
         
-        public override Action<Entity>[] GetReactions(Entity sponser)
+        public override Action<Animal>[] GetReactions(Animal sponser)
         {
             switch (state)
             {
                 case State.Building:
-                    return new Action<Entity>[1] { Build };
+                    return new Action<Animal>[1] { Build };
                 case State.Done:
                     if ((owner==null)||(owner==(ISubject)sponser))
                     {

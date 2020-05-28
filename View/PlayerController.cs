@@ -56,7 +56,7 @@ namespace View
 
         }
 
-        void Start()
+        private void Start()
         {
             body = GameObject.Find("player").GetComponent<Animal>();
             //body = GetComponent<Animal>();
@@ -64,7 +64,7 @@ namespace View
         }
 
 
-        void Update()
+        private void Update()
         {
             Move2Mouse();
             SwitchMode();

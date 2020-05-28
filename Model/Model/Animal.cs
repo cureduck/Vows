@@ -117,6 +117,20 @@ namespace Model
             BackpackChanged?.Invoke();
         }
 
+
+        public bool PickUp(Item item)
+        {
+            for (var i = 0; i < backpack.Length; i++)
+            {
+                if (backpack[i] != null) continue;
+                backpack[i] = item;
+                BackpackChanged?.Invoke();
+                return true;
+            }
+
+            return false;
+        }
+
         internal void HealHp(int point)
         {
             combatAttr.curHp = Math.Min(combatAttr.maxHp, point + combatAttr.curHp);
@@ -166,7 +180,8 @@ namespace Model
 
         public void BuildStructure(Stru origin, Vector2 pos)
         {
-            Instantiate(original: origin, position: pos, rotation: Quaternion.identity);
+            var building= Instantiate(original: origin, position: pos, rotation: Quaternion.identity);
+            building.owner = this;
         }
         #endregion
 
@@ -192,7 +207,7 @@ namespace Model
             eyes = head.transform.Find("eyes").GetComponent<SpriteResolver>();
         }
 
-        public override Action<Entity>[] GetReactions(Entity sponser)
+        public override Action<Animal>[] GetReactions(Animal sponser)
         {
             throw new NotImplementedException();
         }

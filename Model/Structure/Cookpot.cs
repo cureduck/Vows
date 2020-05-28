@@ -5,7 +5,7 @@ namespace Model
 {
     class Cookpot : Stru
     {
-        protected override Action<Entity>[] DisiredReactions => throw new NotImplementedException();
+        protected override Action<Animal>[] DisiredReactions => throw new NotImplementedException();
 
     }
 }
