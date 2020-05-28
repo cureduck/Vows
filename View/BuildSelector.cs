@@ -1,30 +1,29 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Manager;
-using Sirenix.OdinInspector;
+﻿using Manager;
 using UnityEngine;
 using UnityEngine.UI;
-using View;
 
-public class BuildSelector : MonoBehaviour
+namespace View
 {
-    [SerializeField] private Button btn;
-    private void Start()
+    /// <summary>
+    /// 加载建筑模板
+    /// </summary>
+    public class BuildSelector : MonoBehaviour
     {
-        foreach (var go in StrucManager.Instance.items)
+        [SerializeField] private Button btn;
+        private void Start()
         {
-            var t= GameObject.Instantiate(btn, parent: transform);
-            t.gameObject.SetActive(true);
-            t.GetComponentInChildren<Text>().text = go.name;
-            t.onClick.AddListener(
-                ()=>
-                {
-                    PlayerController.Instance.FindStru(go);
-                }
-            );
+            foreach (var go in StrucManager.Instance.items)
+            {
+                var t= GameObject.Instantiate(btn, parent: transform);
+                t.gameObject.SetActive(true);
+                t.GetComponentInChildren<Text>().text = go.name;
+                t.onClick.AddListener(
+                    ()=>
+                    {
+                        PlayerController.Instance.FindStru(go);
+                    }
+                );
+            }
         }
     }
-    
-    
 }

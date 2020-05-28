@@ -20,10 +20,12 @@ namespace View
             }
 
             if (components==null) return;
-            
-            foreach (var item in components)
+
+            for (var i = 0; i < components.Length; i++)
             {
-                Instantiate(template, parent: childSection).value = item;
+                var t = Instantiate(template, parent: childSection);
+                t.value = components[i];
+                t.index = i;
             }
         }
 

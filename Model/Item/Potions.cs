@@ -3,44 +3,55 @@ using UnityEngine;
 
 namespace Model.Items
 {
-    public abstract class Potion : Item
+    public abstract class Potion : Consumpution
     {
         public abstract int HpPoint { get; }
         public abstract int SpPoint { get; }
 
-        public virtual void OnUse(Entity entity)
+        public override void OnUse(Entity entity)
         {
-            if (entity is Animal a)
-            {
-                a.HealHp(HpPoint);
-                a.HealSp(SpPoint);
-            }
+            if (!(entity is Animal a)) return;
+            a.HealHp(HpPoint);
+            a.HealSp(SpPoint);
+            base.OnUse(entity);
         }
     }
 
 
     class hp : Potion
     {
-        public override int HpPoint { get; } = 10;
-        public override int SpPoint { get; } = 0;
+        public override int HpPoint => 10;
+
+        public override int SpPoint => 0;
 
         public override string className { get; }="Big Potion";
 
         public override string itemDesc { get; } = "Big Potion";
-
-        public override Sprite itemSprite { get; internal set; }
+        
+        private static Sprite _sprite;
+        public override Sprite itemSprite
+        {
+            get=>_sprite;
+            internal set { _sprite = value; }
+        }
+        
     }
 
     class mp : Potion
     {
-        public override int HpPoint { get; } = 3;
-        public override int SpPoint { get; } = 0;
+        public override int HpPoint =>0;
+        public override int SpPoint =>3;
 
         public override string className { get; } = "Big Potion";
 
         public override string itemDesc { get; } = "Big Potion";
 
-        public override Sprite itemSprite { get; internal set; }
+        private static Sprite _sprite;
+        public override Sprite itemSprite
+        {
+            get=>_sprite;
+            internal set { _sprite = value; }
+        }
     }
 
 }

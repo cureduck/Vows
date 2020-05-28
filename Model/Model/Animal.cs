@@ -54,17 +54,20 @@ namespace Model
         public CombatAttr combatAttr;
         public BaseAttr baseAttr;
         public SkillExp skillExp;
-        
+
+        [ShowInInspector]
+        public Group mainGroup;
         
         private TileAI _agent;
         private Animator _animator;
 
-        public List<Item> backpack;
+        public Item[] backpack;
         #endregion
 
         #region events
         public event Action<Animal> Death;
         public event Action StatusUpdated;
+        public event Action BackpackChanged;
 
         #endregion
 
@@ -86,29 +89,33 @@ namespace Model
             }
         }
 
-        /*
+        [Button]
+        public void ChangeBackpack()
+        {
+            BackpackChanged?.Invoke();
+        }
+
+        
         public void SwapItem(int idx1,int idx2)
         {
-            var tmp = items[idx1];
-            items[idx1] = items[idx2];
-            items[idx2] = tmp;
-            UpdateAttr();
+            var tmp = backpack[idx1];
+            backpack[idx1] = backpack[idx2];
+            backpack[idx2] = tmp;
+            BackpackChanged?.Invoke();
         }
+        
         /// <summary>
         /// 待改进
         /// </summary>
         /// <param name="consumpution"></param>
         public void Use(Animal owner,int index)
         {
-            if (owner.items[index] is Consumpution c)
-            {
-                c.Use(this);
-                if (c.count == 0)
-                    owner.items[index] = null;
-                UpdateAttr();
-            }
+            if (!(owner.backpack[index] is Consumpution c)) return;
+            c.OnUse(this);
+            if (c.Qty == 0)
+                owner.backpack[index] = null;
+            BackpackChanged?.Invoke();
         }
-    */
 
         internal void HealHp(int point)
         {

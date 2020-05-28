@@ -21,11 +21,14 @@ namespace Model
     
     public abstract class Consumpution : Item
     {
-        public abstract void OnUse(Entity user);
+        public virtual void OnUse(Entity user)
+        {
+            Debug.Log(1);
+            Qty -= 1;
+        }
 
         public virtual int MaxStack { get; } = 10;
         public int Qty;
-        public abstract void OnUse();
     }
 }
 

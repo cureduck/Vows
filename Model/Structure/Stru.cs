@@ -92,6 +92,7 @@ namespace Model
         }
 
 
+        
         public override Action<Entity>[] GetReactions(Entity sponser)
         {
             switch (state)
@@ -99,7 +100,14 @@ namespace Model
                 case State.Building:
                     return new Action<Entity>[1] { Build };
                 case State.Done:
-                    return DisiredReactions;
+                    if ((owner==null)||(owner==(ISubject)sponser))
+                    {
+                        return DisiredReactions;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 default:
                     return null;
             }

@@ -21,7 +21,7 @@ namespace Manager
         public Dictionary<Item, int> price;
         
         
-        private void Start()
+        private void Awake()
         {
             RegisterItems();
         }
