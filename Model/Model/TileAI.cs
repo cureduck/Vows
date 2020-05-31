@@ -23,7 +23,7 @@ namespace Model
 
         public bool hasReached=true;
 
-        private void Start()
+        private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
         }
@@ -40,7 +40,7 @@ namespace Model
         private void Update()
         {
             if (hasReached) return;
-            if (!(Vector2.Distance(_destination, position) < 0.01f * speed)) return;
+            if (!(Vector2.Distance(_destination, position) < 0.03f * speed)) return;
             _rb.velocity = Vector2.zero;
             transform.position = _destination;
             Reached?.Invoke();

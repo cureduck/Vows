@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model.Plants;
 using Sirenix.OdinInspector;
 using Unity.Collections;
 using UnityEngine;
@@ -22,6 +24,10 @@ namespace Model
         public string name { get; set; }
         private Vector2 velocity => _agent.velocity;
         private SpriteResolver body,eyes,head;
+        public bool hasReached => _agent.hasReached;
+
+        public Properties properties;
+        
         #endregion
 
         #region variable
@@ -73,7 +79,7 @@ namespace Model
 
         #region methods
 
-        private void Start()
+        private void Awake()
         {
             _agent = GetComponent<TileAI>();
             _animator = GetComponent<Animator>();
@@ -220,5 +226,12 @@ namespace Model
 
         #endregion
     }
-    
+
+
+    public struct Properties
+    {
+        public List<Plant> Plants;
+        public List<Bed> Beds;
+        
+    }
 }

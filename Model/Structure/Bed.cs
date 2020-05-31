@@ -6,7 +6,7 @@ using Model.Buff;
 
 namespace Model
 {
-    class Bed : Stru
+    public class Bed : Stru
     {
         public override string StruName => "Bed";
 

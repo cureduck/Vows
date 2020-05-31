@@ -7,17 +7,16 @@ using UnityEngine.UI;
 
 namespace Model.Plants
 {
-    public abstract class Plant:Property
+    public class Plant:Property
     {
         
         [SerializeField] private Text nameText;
         [SerializeField] private Text progressText;
         
-        public abstract string DisplayName { get;}
-        
-        [ShowInInspector]
-        public float Progress { get; private set; }
-        public bool Ripe => Progress >= 1;
+        public virtual string DisplayName { get;}
+
+        [ShowInInspector] public float progress;
+        public bool Ripe => progress >= 1;
         public float GrowUpTime { get; } = 10;
         [ShowInInspector]
         public virtual Item[] Drop { get; }
@@ -41,15 +40,15 @@ namespace Model.Plants
                 picker.PickUp(clone);
             }
 
-            Progress = 0;
+            progress = 0;
         }
 
         private void GrowUp()
         {
-            Progress += 1 / GrowUpTime;
-            if (Progress > 1)
+            progress += 1 / GrowUpTime;
+            if (progress > 1)
             {
-                Progress = 1;
+                progress = 1;
             }
 
             Show();
@@ -57,7 +56,7 @@ namespace Model.Plants
 
         private void Show()
         {
-            progressText.text = Progress.ToString("P");
+            progressText.text = progress.ToString("P");
         }
     }
 }
