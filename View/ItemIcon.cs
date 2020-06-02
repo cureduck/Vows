@@ -1,6 +1,7 @@
 ﻿using System;
 using Manager;
 using Model;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,6 +12,8 @@ namespace View
     {
         [SerializeField]
         private Image _image;
+        [SerializeField] private TMP_Text _count;
+
 
         private GameObject copy;
         private void Start()
@@ -21,6 +24,14 @@ namespace View
         protected override void UpdateUI()
         {
             _image.sprite = value?.itemSprite;
+            if (value is Consumpution c)
+            {
+                _count.text = c.Qty.ToString();
+            }
+            else
+            {
+                _count.text = "";
+            }
         }
         
         public void OnDrag(PointerEventData eventData)

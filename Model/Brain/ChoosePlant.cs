@@ -2,7 +2,7 @@
 
 namespace Model.Brain
 {
-    public class ChoosePlant:Action
+    public class ChoosePlant:Conditional
     {
         public SharedPlant target;
         public SharedAnimal Self;
@@ -10,7 +10,8 @@ namespace Model.Brain
 
         public override TaskStatus OnUpdate()
         {
-            target.Value= Self.Value.properties.Plants.Find(plant => plant.Ripe);
+            var t= Self.Value.properties.Plants.Find(plant => plant.Ripe);
+            target.Value = t;
             return target.Value != null ? TaskStatus.Success : TaskStatus.Failure;
         }
     }

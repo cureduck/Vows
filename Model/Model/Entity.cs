@@ -10,11 +10,11 @@ using UnityEngine;
 
 namespace Model
 {
-    public abstract class Entity:SerializedMonoBehaviour
+    public class Entity:SerializedMonoBehaviour
     {
-        public abstract Action<Animal>[] GetReactions(Animal sponser);
-        
-        
+        public virtual Action<Animal>[] GetReactions(Animal sponser) => throw new NotImplementedException();
+
+
         public event Action<Entity> CastStarted;
         public event Action<Entity> CastCompleted;
         public event Action<Entity> CastInterrupted;
@@ -35,7 +35,7 @@ namespace Model
             AttrUpdated?.Invoke();
         }
 
-        public enum Status { Idle, Reacting, Stun}
+        public enum Status { Idle, Walking, Reacting, Stun}
         [ShowInInspector]
         public Status status { get; set; }
         

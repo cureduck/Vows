@@ -16,6 +16,7 @@ namespace Model.Plants
         public virtual string DisplayName { get;}
 
         [ShowInInspector] public float progress;
+        [ShowInInspector,ReadOnly]
         public bool Ripe => progress >= 1;
         public float GrowUpTime { get; } = 10;
         [ShowInInspector]

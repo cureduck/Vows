@@ -190,7 +190,7 @@ namespace Model
             building.owner = this;
         }
         #endregion
-
+        
         #region Animation Handler
 
         public void UpdateFace()
