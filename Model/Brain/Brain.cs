@@ -6,13 +6,14 @@ namespace Model.Brain
 {
     public class Brain:MonoBehaviour
     {
-        public BehaviorTree[] bts;
-        private void Awake()
+        public BehaviorTree Harvest;
+        public BehaviorTree Sleep;
+        public BehaviorTree Rest;
+
+
+        private void Update()
         {
-            bts= GetComponents<BehaviorTree>();
+            
         }
-        
-        
-        
     }
 }

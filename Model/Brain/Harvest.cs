@@ -8,37 +8,23 @@ namespace Model.Brain
     public class Harvest : Action
     {
         public SharedAnimal Self;
-        public SharedPlant Target;
-        
-        public override void OnStart()
-        {
-            Self.Value.Move2React(Target.Value);
-        }
-
-        public override TaskStatus OnUpdate()
-        {
-            return Self.Value.hasReached ? TaskStatus.Success : TaskStatus.Running;
-        }
-    }
-
-    public class React : Action
-    {
-        public SharedAnimal Self;
         public SharedEntity Target;
+        private Plant _plant;
         
         public override void OnStart()
         {
-            Self.Value.Move2React(Target.Value);
+            _plant = Target.Value as Plant;
+            Self.Value.React(_plant);
         }
         
         
         public override TaskStatus OnUpdate()
         {
-            return Self.Value.hasReached ? TaskStatus.Success : TaskStatus.Running;
+            return Self.Value.status==Entity.Status.Idle ? TaskStatus.Success : TaskStatus.Running;
         }
     }
-    
-    
+
+
     [System.Serializable]
     public class SharedAnimal : SharedVariable <Animal>
     {

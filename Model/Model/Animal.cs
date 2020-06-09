@@ -62,6 +62,9 @@ namespace Model
         public SkillExp skillExp;
 
         [ShowInInspector]
+        public  List<Delegate> actionQueue;
+
+        [ShowInInspector]
         public Group mainGroup;
         
         private TileAI _agent;
@@ -88,13 +91,18 @@ namespace Model
 
         public void SetDestination(Vector2 dest)
         {
+            /*
             if (status==Status.Idle)
             {
-                _agent.SetDestination(dest);
-                //UpdateFace();
+                var t= new Walk(this, dest);
+                task = t;
+                t.TakeOn();
             }
+            */
+            _agent.SetDestination(dest);
+            //UpdateFace();
         }
-
+        
         [Button]
         public void ChangeBackpack()
         {
@@ -122,8 +130,8 @@ namespace Model
                 owner.backpack[index] = null;
             BackpackChanged?.Invoke();
         }
-
-
+        
+        
         public bool PickUp(Item item)
         {
             for (var i = 0; i < backpack.Length; i++)
@@ -133,10 +141,10 @@ namespace Model
                 BackpackChanged?.Invoke();
                 return true;
             }
-
             return false;
         }
-
+        
+        
         internal void HealHp(int point)
         {
             combatAttr.curHp = Math.Min(combatAttr.maxHp, point + combatAttr.curHp);
@@ -167,7 +175,6 @@ namespace Model
         [Button]
         internal void Die()
         {
-            Debug.Log("去世");
             Destroy(gameObject);
             Death?.Invoke(this);
         }
@@ -181,6 +188,11 @@ namespace Model
         {
             SetDestination(target.transform.position);
             yield return new WaitUntil(()=> _agent.hasReached);
+            target.GetReactions(this)[index](this);
+        }
+
+        public void React(Entity target,int index=0)
+        {
             target.GetReactions(this)[index](this);
         }
 

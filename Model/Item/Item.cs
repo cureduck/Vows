@@ -27,7 +27,6 @@ namespace Model
     {
         public virtual void OnUse(Entity user)
         {
-            Debug.Log(1);
             Qty -= 1;
         }
 

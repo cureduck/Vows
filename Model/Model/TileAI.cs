@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BehaviorDesigner.Runtime.Tasks.Basic.UnityGameObject;
+using Model.Buff;
 using UnityEngine;
 
 
@@ -46,5 +48,48 @@ namespace Model
             Reached?.Invoke();
             hasReached = true;
         }
+    }
+
+
+    public class Walk : ExclusiveBuff
+    {
+        private Vector2 _dest;
+        private readonly Rigidbody2D _rb;
+        public Walk(Entity owner,Vector2 dest, float timeMult = 1) : base(owner, timeMult)
+        {
+            _dest = dest;
+            _rb = owner.GetComponent<Rigidbody2D>();
+        }
+
+        public override void TakeOn()
+        {
+            Owner.status = Entity.Status.Walking;
+            base.TakeOn();
+        }
+
+        protected override void TakeOff()
+        {
+            if (Owner.status==Entity.Status.Walking)
+            {
+                Owner.status = Entity.Status.Idle;
+            }
+            base.TakeOff();
+        }
+
+        protected override void Effect()
+        {
+            if (Vector2.Distance(_dest,_rb.position)<(1f*_rb.velocity.magnitude))
+            {
+                _rb.velocity = Vector2.zero;
+                _rb.position = _dest;
+                TakeOff();
+                return;
+            }
+            var dir = (_dest - _rb.position).normalized;
+            _rb.velocity=dir;
+            base.Effect();
+        }
+
+        public override float baseDuration { get; } = 100f;
     }
 }

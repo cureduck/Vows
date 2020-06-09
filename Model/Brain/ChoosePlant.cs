@@ -4,7 +4,7 @@ namespace Model.Brain
 {
     public class ChoosePlant:Conditional
     {
-        public SharedPlant target;
+        public SharedEntity target;
         public SharedAnimal Self;
         
 
