@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEditor;
 using Model;
@@ -73,22 +72,6 @@ namespace View
             maxCap.text = value.capacity.end.ToString();
             base.UpdateUI();
 
-        }
-    }
-
-
-    [CustomEditor(typeof(CommunityIcon))]
-    public class ClassViewEditor:Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
-            var a = (CommunityIcon)target;
-
-            if (a.value==null)
-            {
-                EditorGUILayout.HelpBox("No Target",MessageType.Warning);
-            }
         }
     }
 }

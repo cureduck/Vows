@@ -1,6 +1,4 @@
-﻿using Sirenix.OdinInspector.Editor;
-
-namespace Model.Buff
+﻿namespace Model.Buff
 {
     public abstract class ElementBuff:ContinuousBuff
     {

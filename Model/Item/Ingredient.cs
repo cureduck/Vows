@@ -1,8 +1,4 @@
 ﻿using System;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEngine.UIElements;
 
 namespace Model
 {

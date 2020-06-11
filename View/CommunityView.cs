@@ -2,7 +2,6 @@
 using UnityEngine;
 using Model;
 using UnityEditor;
-using System.Linq;
 using Manager;
 using TMPro;
 
@@ -66,29 +65,4 @@ namespace View
             value.status = Group.Status.Completed;
         }
     }
-
-    
-    [CustomEditor(typeof(CommunityView))]
-    public class AnimalEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
-
-            var a = (CommunityView)target;
-
-            if (GUILayout.Button("Build New Community"))
-            {
-                a.CreateCommunity();
-            }
-            
-            if (a.value==null)
-            {
-                EditorGUILayout.HelpBox("No Target",MessageType.Warning);
-            }
-            
-        }
-    }
-
-
 }

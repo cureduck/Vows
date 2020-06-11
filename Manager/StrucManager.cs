@@ -24,7 +24,7 @@ namespace Manager
             
             items = new GameObject[types.Length];
 
-            int i = 0;
+            var i = 0;
             foreach (var type in types)
             {
                 var go = resources.First((s) => { return s.name == type.Name; });

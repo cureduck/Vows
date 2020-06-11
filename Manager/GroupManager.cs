@@ -31,20 +31,4 @@ namespace Manager
             GroupChanged?.Invoke();
         }
     }
-
-    [CustomEditor(typeof(GroupManager))]
-    public class CommunityManagerEidtor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
-
-            GroupManager a = (GroupManager)target;
-
-            if (GUILayout.Button("Log"))
-            {
-                Debug.Log(a.communityList);
-            }
-        }
-    }
 }
