@@ -18,7 +18,7 @@ namespace Model
         public float buildTime = 10f;
         private SpriteRenderer[] srs;
         public State state;
-        protected abstract Action<Animal>[] DisiredReactions { get; }
+        protected abstract Action<Animal>[] DesiredReactions { get; }
 
 
         public void Awake()
@@ -102,7 +102,7 @@ namespace Model
                 case State.Done:
                     if ((owner==null)||(owner==(ISubject)sponser))
                     {
-                        return DisiredReactions;
+                        return DesiredReactions;
                     }
                     else
                     {

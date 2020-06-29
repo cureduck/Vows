@@ -10,7 +10,7 @@ namespace Model
     {
         public override string StruName => "Bed";
 
-        protected override Action<Animal>[] DisiredReactions => new Action<Animal>[1] { Sleep };
+        protected override Action<Animal>[] DesiredReactions => new Action<Animal>[1] { Sleep };
 
         private class SleepBuff:ReactBuff
         {

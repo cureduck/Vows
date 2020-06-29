@@ -62,9 +62,6 @@ namespace Model
         public SkillExp skillExp;
 
         [ShowInInspector]
-        public  List<Delegate> actionQueue;
-
-        [ShowInInspector]
         public Group mainGroup;
         
         private TileAI _agent;
@@ -91,15 +88,14 @@ namespace Model
 
         public void SetDestination(Vector2 dest)
         {
-            /*
+            
             if (status==Status.Idle)
             {
                 var t= new Walk(this, dest);
                 task = t;
                 t.TakeOn();
             }
-            */
-            _agent.SetDestination(dest);
+            //_agent.SetDestination(dest);
             //UpdateFace();
         }
         
