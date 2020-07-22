@@ -5,7 +5,6 @@ using Model.Items;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Utils;
 
 namespace Manager
 {

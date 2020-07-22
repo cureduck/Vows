@@ -7,6 +7,7 @@ using UnityEngine;
 using Model;
 using System.Reflection;
 using UnityEngine.Serialization;
+using Utils;
 
 namespace Manager
 {

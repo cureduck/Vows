@@ -4,6 +4,7 @@ using UnityEngine;
 using Model;
 using UnityEngine.EventSystems;
 using Manager;
+using Utils;
 
 namespace View
 {

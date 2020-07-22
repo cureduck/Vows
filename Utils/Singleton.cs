@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Manager
+namespace Utils
 {
     public class Singleton<T> : SerializedMonoBehaviour where T : MonoBehaviour
     {
