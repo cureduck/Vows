@@ -3,6 +3,7 @@ using UnityEngine;
 using Model;
 using UnityEditor;
 using Manager;
+using Model.Community;
 using TMPro;
 
 namespace View

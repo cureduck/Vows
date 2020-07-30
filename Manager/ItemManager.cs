@@ -30,8 +30,7 @@ namespace Manager
         private void RegisterItems()
         {
             var resources = Resources.LoadAll<Sprite>("Sprites/");
-            var types = Utils.GetSubClasses(typeof(Item));
-
+            var types = Tools.GetSubClasses(typeof(Item));
             items = new Item[types.Length];
             var i = 0;
             foreach (var type in types)

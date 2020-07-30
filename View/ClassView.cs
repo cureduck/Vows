@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEditor;
 using Model;
+using Model.Community;
 
 
 namespace View

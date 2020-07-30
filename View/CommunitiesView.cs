@@ -2,6 +2,7 @@
 using UnityEngine;
 using Model;
 using Manager;
+using Model.Community;
 
 namespace View
 {

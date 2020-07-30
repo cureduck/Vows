@@ -4,6 +4,7 @@ using UnityEngine;
 using Model;
 using UnityEditor;
 using System.Linq;
+using Model.Community;
 using Utils;
 
 namespace Manager

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
-namespace Model
+namespace Model.Community
 {
     [Serializable]
     public class Group:ISubject
@@ -40,7 +38,7 @@ namespace Model
         /// 默认为顺位调整制度，即为上位角色过世，由下位第一角色继任
         /// </summary>
         /// <returns></returns>
-        public virtual void PostionAdjust()
+        public virtual void PositionAdjust()
         {
             for (var i = 0; i <classes.Length ; i++)
             {
@@ -64,7 +62,7 @@ namespace Model
                 t.actors.Remove(person);
             }
 
-            PostionAdjust();
+            PositionAdjust();
         }
 
         public bool TryAdd(Animal person,int rank)

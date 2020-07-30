@@ -5,14 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using BehaviorDesigner.Runtime.Tasks.Basic.UnityGameObject;
 using Model.Buff;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 
 namespace Model
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    class TileAI:MonoBehaviour
+    class TileAI:SerializedBehaviour
     {
+        [ShowInInspector] private Vector2Int _pos;
+        [ShowInInspector] private Vector2Int _des;
+        
         private Rigidbody2D _rb;
         private Vector2 position => _rb.position;
         public float speed = 3f;

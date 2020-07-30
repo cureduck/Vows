@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Model;
+using Model.Community;
 using TMPro;
 
 namespace View

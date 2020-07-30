@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEditor;
 
-namespace Model
+namespace Model.Community
 {
     [Serializable]
     public class Class
