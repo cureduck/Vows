@@ -14,11 +14,13 @@ namespace Utils
         /// <returns></returns>
         public static Type[] GetSubClasses(Type basetype)
         {
-            var types = Assembly.GetCallingAssembly().GetTypes().Where((type) =>
-            {
-                return (type.IsSubclassOf(basetype) && (!type.IsAbstract));
-            });
+            var types = Assembly.GetCallingAssembly().GetTypes().Where((type) => (type.IsSubclassOf(basetype) && (!type.IsAbstract)));
             return types.ToArray();
+        }
+
+        public static Vector2Int Vec2Int(Vector2 vec)
+        {
+            return new Vector2Int((int)Math.Floor(vec.x),(int)Math.Floor(vec.y));
         }
     }
 }

@@ -5,54 +5,153 @@ using System.Text;
 using System.Threading.Tasks;
 using BehaviorDesigner.Runtime.Tasks.Basic.UnityGameObject;
 using Model.Buff;
+using Model.Community;
 using Sirenix.OdinInspector;
 using UnityEngine;
-
+using Utils;
 
 namespace Model
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    class TileAI:SerializedBehaviour
+    public class TileAI:SerializedMonoBehaviour
     {
-        [ShowInInspector] private Vector2Int _pos;
-        [ShowInInspector] private Vector2Int _des;
-        
+        public float velocity;
         private Rigidbody2D _rb;
-        private Vector2 position => _rb.position;
-        public float speed = 3f;
-        private Vector2 _destination;
-        public Vector2 velocity => _rb.velocity;
-        private bool _canMove=true;
-        public bool canMove { get=>_canMove; set { _canMove = value; if (value) { SetDestination(_destination); } else { _rb.velocity = Vector2.zero; } } }
+        public Vector2Int position => Tools.Vec2Int(_rb.position);
 
-        public event Action Reached;
 
-        public bool hasReached=true;
+        public Vector2Int test;
+        public Vector2Int dest;
 
-        private void Awake()
+        public Map map;
+        [Button]
+        
+        public void FindPath()
+        {
+            FindPath(map,dest);
+        }
+        
+        private void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
         }
 
-        public void SetDestination(Vector2 destination)
-        {
-            hasReached = false;
-            _destination = destination;
-            var dir= (destination - position).normalized;
-            _rb.velocity = dir * speed;
-        }
 
 
-        private void Update()
+        public void FindPath(Map map,Vector2Int des)
         {
-            if (hasReached) return;
-            if (!(Vector2.Distance(_destination, position) < 0.03f * speed)) return;
-            _rb.velocity = Vector2.zero;
-            transform.position = _destination;
-            Reached?.Invoke();
-            hasReached = true;
+            
+            Debug.Log(1);
+            var current=new Node(position);
+
+            Dictionary<Node, int> openList = new Dictionary<Node, int>();
+            openList.Add(current,current.fn);
+            HashSet<Node> closeList=new HashSet<Node>();
+            
+            while (openList.Count>0 && (current.coordinate != des))
+            {
+                
+                Debug.Log(current.coordinate);
+                
+                //取出openlist中预测最短路径节点，准备对其进行扩展
+                var m= openList.Values.Min();
+                current= openList.First((pair => pair.Value == m)).Key;
+                openList.Remove(current);
+                //将扩展节点加入openlist
+                foreach (var neighbour in current.Neighbours(des))
+                {
+                    if (map.CanPass(this,neighbour.coordinate)&& !closeList.Contains(neighbour))
+                    {
+                        if (!openList.ContainsKey(neighbour))
+                        {
+                            openList.Add(neighbour,neighbour.fn);
+                        }
+                    }
+                }
+
+                closeList.Add(current);
+            }
+            
+            if (current.coordinate==des)
+            {
+                while (current.privious!=null)
+                {
+                    current = current.privious;
+                }
+            }
+            
+            
         }
+        
+        
+        public bool hasReached { get; private set; }
+        
+        
+        
+        internal class Node
+        {
+            internal readonly Vector2Int coordinate;
+
+            internal Node privious;
+
+            internal int fn;
+            internal int gn;
+            internal int hn;
+            
+
+            internal Node(Vector2Int pos)
+            {
+                coordinate = pos;
+            }
+
+            internal Node(Vector2Int pos, Node privious,int gn,int hn)
+            {
+                coordinate = pos;
+                this.privious = privious;
+                this.gn = gn;
+                this.hn = hn;
+                this.fn = gn + hn;
+            }
+
+            public override int GetHashCode()
+            {
+                return coordinate.GetHashCode();
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is Node that && this.coordinate == that.coordinate;
+            }
+
+            public Node[] Neighbours(Vector2Int des)
+            {
+                var tmp = new Node[4];
+                for (int i = 0; i < 4; i++)
+                {
+                    tmp[i] = new Node(pos: (coordinate+Dir[i]),this,ManhDistance(des,coordinate+Dir[i]),hn+1);
+                }
+                return tmp;
+            }
+
+            private readonly Vector2Int[] Dir = new[]
+            {
+                Vector2Int.down,
+                Vector2Int.up,
+                Vector2Int.left,
+                Vector2Int.right,
+            };
+
+            public int ManhDistance(Vector2Int vec1, Vector2Int vec2)
+            {
+                return Math.Abs((vec1 - vec2).x) + Math.Abs((vec1 - vec2).y);
+            }
+        }
+
     }
+    
+    
+    
+    
 
 
     public class Walk : ExclusiveBuff

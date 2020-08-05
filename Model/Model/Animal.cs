@@ -23,7 +23,7 @@ namespace Model
         
         [ShowInInspector]
         public string name { get; set; }
-        private Vector2 velocity => _agent.velocity;
+        private float velocity => _agent.velocity;
         private SpriteResolver body,eyes,head;
         public bool hasReached => _agent.hasReached;
 
@@ -202,6 +202,7 @@ namespace Model
         
         #region Animation Handler
 
+        /*
         public void UpdateFace()
         {
             if (Math.Abs( velocity.x) > Math. Abs(velocity.y))
@@ -213,6 +214,7 @@ namespace Model
                 eyes.SetCategoryAndLabel(velocity.y < 0 ? "eyes_front" : "eyes_back", "default");
             }
         }
+        */
 
 
         public void GetAnimComponents()
